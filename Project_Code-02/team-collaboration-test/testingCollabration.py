@@ -27,3 +27,4 @@
 # อัปโหลด commit จากเครื่องเรา (local) ไปยัง remote repository
 # git push origin .....
 
+print("Kub Auan")
