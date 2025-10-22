@@ -26,4 +26,5 @@
 # git commit -m ""
 # อัปโหลด commit จากเครื่องเรา (local) ไปยัง remote repository
 # git push origin .....
+print("test game")
 
