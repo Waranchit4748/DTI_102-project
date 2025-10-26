@@ -3,9 +3,27 @@
 __pycache__/
 *.pyc
 
-# ไม่เก็บไฟล์ embedding
+# Embeddings / Model / Cache
 data/*.pkl
+data/*.npy
+data/*.npz
+cache/
+tmp/
+*.cache
+*.bin
 
-# IDE 
+# Hugging Face / Transformers cache
+huggingface/
+transformers/
+*.jsonl
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# IDE config
 .vscode/
 .idea/
+
+
