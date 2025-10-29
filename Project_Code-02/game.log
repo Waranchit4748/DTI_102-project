@@ -1,0 +1,19 @@
+2025-10-29 13:58:30,972 - root - INFO - Logging initialized.
+2025-10-29 13:58:30,972 - root - INFO - Starting Word Guess Game...
+2025-10-29 13:58:31,567 - root - INFO - Loading fonts...
+2025-10-29 13:58:31,567 - root - INFO - Font loaded: Arial
+2025-10-29 13:58:31,567 - root - INFO - Applying theme...
+2025-10-29 13:58:31,567 - gui.components - INFO - Frame stack initialized.
+2025-10-29 13:58:31,585 - gui.components - INFO - Frame 'Home' registered.
+2025-10-29 13:58:31,585 - gui.components - INFO - Frame 'Play' registered.
+2025-10-29 13:58:31,585 - gui.components - INFO - Showing frame: Home
+2025-10-29 13:58:31,585 - root - INFO - All frames registered.
+2025-10-29 13:58:36,996 - gui.components - INFO - Showing frame: Play
+2025-10-29 13:58:38,011 - gui.home_window - INFO - Starting game with difficulty: ง่าย
+2025-10-29 13:58:38,011 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-29 13:58:39,276 - gui.home_window - INFO - Starting game with difficulty: ปานกลาง
+2025-10-29 13:58:39,276 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-29 13:58:40,661 - gui.home_window - INFO - Starting game with difficulty: ยาก
+2025-10-29 13:58:40,662 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-29 13:58:41,859 - gui.components - INFO - Showing frame: Home
+2025-10-29 13:58:46,735 - root - INFO - Game closed.
