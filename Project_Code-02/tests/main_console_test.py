@@ -1,4 +1,4 @@
-import sys
+'''import sys
 from core.embedding_service import EmbeddingService
 
 def main():
@@ -40,3 +40,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
