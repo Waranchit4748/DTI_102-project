@@ -41,13 +41,33 @@ def create_home_ui(root: ctk.CTk, stack: Dict) -> ctk.CTkFrame:
     
     # สร้างปุ่มเริ่มเล่นเกม
     create_button(frame, 
-                text="เริ่มเล่นเกม", 
-                command=lambda: show(stack, "Play"), # กดสลับไปยังหน้าจอ Play
-                width=220, 
-                border_width=0, 
-                fg_color="#3B8ED0"
-                ).place(relx=0.5, rely=0.65, anchor="center")
+        text="เริ่มเล่นเกม", 
+        command=lambda: show(stack, "Play"), # กดสลับไปยังหน้าจอ Play
+        width=220, 
+        border_width=0, 
+        fg_color="#3B8ED0"
+    ).place(relx=0.5, rely=0.65, anchor="center")
     
+    # ปุ่มคุ่มือ
+    create_button(
+        frame,
+        text="คู่มือการเล่นเกม",
+        command=lambda: show(stack, "tutorial"), #ถ้ากดปุ่มจะไหปหน้า tutorial_window
+        width=220,
+        border_width=0,
+        fg_color="#3B8ED0"
+    ).place(relx=0.5, rely=0.75, anchor="center")
+
+    # ปุ่มตั่งค่า
+    create_button(
+        frame,
+        text="ตั้งค่า",
+        command=lambda: show(stack, "setting"), #ถ้ากดปุ่มจะไหปหน้า tutorial_window
+        width=220,
+        border_width=0,
+        fg_color="#3B8ED0"
+    ).place(relx=0.5, rely=0.85, anchor="center")
+
     return frame
 
 # สร้างหน้าเลือกระดับความยากของเกม
