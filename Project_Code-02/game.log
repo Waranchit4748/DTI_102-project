@@ -1,0 +1,264 @@
+2025-10-29 13:58:30,972 - root - INFO - Logging initialized.
+2025-10-29 13:58:30,972 - root - INFO - Starting Word Guess Game...
+2025-10-29 13:58:31,567 - root - INFO - Loading fonts...
+2025-10-29 13:58:31,567 - root - INFO - Font loaded: Arial
+2025-10-29 13:58:31,567 - root - INFO - Applying theme...
+2025-10-29 13:58:31,567 - gui.components - INFO - Frame stack initialized.
+2025-10-29 13:58:31,585 - gui.components - INFO - Frame 'Home' registered.
+2025-10-29 13:58:31,585 - gui.components - INFO - Frame 'Play' registered.
+2025-10-29 13:58:31,585 - gui.components - INFO - Showing frame: Home
+2025-10-29 13:58:31,585 - root - INFO - All frames registered.
+2025-10-29 13:58:36,996 - gui.components - INFO - Showing frame: Play
+2025-10-29 13:58:38,011 - gui.home_window - INFO - Starting game with difficulty: ง่าย
+2025-10-29 13:58:38,011 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-29 13:58:39,276 - gui.home_window - INFO - Starting game with difficulty: ปานกลาง
+2025-10-29 13:58:39,276 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-29 13:58:40,661 - gui.home_window - INFO - Starting game with difficulty: ยาก
+2025-10-29 13:58:40,662 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-29 13:58:41,859 - gui.components - INFO - Showing frame: Home
+2025-10-29 13:58:46,735 - root - INFO - Game closed.
+2025-10-29 21:25:58,364 - root - INFO - Logging initialized.
+2025-10-29 21:25:58,365 - root - INFO - Starting Word Guess Game...
+2025-10-29 21:25:58,768 - root - INFO - Loading fonts...
+2025-10-29 21:25:58,771 - root - INFO - Font loaded: Arial
+2025-10-29 21:25:58,772 - root - INFO - Applying theme...
+2025-10-29 21:25:58,774 - gui.components - INFO - Frame stack initialized.
+2025-10-29 21:25:58,937 - gui.components - INFO - Frame 'Home' registered.
+2025-10-29 21:25:58,937 - gui.components - INFO - Frame 'Play' registered.
+2025-10-29 21:25:58,937 - gui.components - INFO - Showing frame: Home
+2025-10-29 21:25:58,938 - root - INFO - All frames registered.
+2025-10-29 21:26:00,974 - gui.components - ERROR - Frame 'Guide' not found.
+2025-10-29 21:26:02,648 - root - INFO - Game closed.
+2025-10-29 21:27:09,610 - root - INFO - Logging initialized.
+2025-10-29 21:27:09,611 - root - INFO - Starting Word Guess Game...
+2025-10-29 21:27:09,869 - root - INFO - Loading fonts...
+2025-10-29 21:27:09,870 - root - INFO - Font loaded: Arial
+2025-10-29 21:27:09,870 - root - INFO - Applying theme...
+2025-10-29 21:27:09,871 - gui.components - INFO - Frame stack initialized.
+2025-10-29 21:27:09,945 - gui.components - INFO - Frame 'Home' registered.
+2025-10-29 21:27:09,945 - gui.components - INFO - Frame 'Play' registered.
+2025-10-29 21:27:09,945 - gui.components - INFO - Showing frame: Home
+2025-10-29 21:27:09,946 - root - INFO - All frames registered.
+2025-10-29 21:27:11,075 - gui.components - ERROR - Frame 'Guide' not found.
+2025-10-29 21:27:11,770 - gui.components - ERROR - Frame 'Guide' not found.
+2025-10-29 21:27:12,312 - gui.components - INFO - Showing frame: Play
+2025-10-29 21:27:13,438 - gui.components - INFO - Showing frame: Home
+2025-10-29 21:27:14,437 - gui.components - ERROR - Frame 'Guide' not found.
+2025-10-29 21:27:15,851 - root - INFO - Game closed.
+2025-10-30 00:39:41,965 - root - INFO - Logging initialized.
+2025-10-30 00:39:41,966 - root - INFO - Starting Word Guess Game...
+2025-10-30 00:39:42,482 - root - INFO - Loading fonts...
+2025-10-30 00:39:42,483 - root - INFO - Font loaded: Arial
+2025-10-30 00:39:42,483 - root - INFO - Applying theme...
+2025-10-30 00:39:42,485 - gui.components - INFO - Frame stack initialized.
+2025-10-30 00:39:42,651 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 00:39:42,652 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 00:39:42,652 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 00:39:42,653 - gui.components - INFO - Showing frame: Home
+2025-10-30 00:39:42,654 - root - INFO - All frames registered.
+2025-10-30 00:39:44,369 - gui.components - ERROR - Frame 'Guide' not found.
+2025-10-30 00:39:45,078 - gui.components - ERROR - Frame 'Guide' not found.
+2025-10-30 00:39:47,190 - root - INFO - Game closed.
+2025-10-30 00:40:10,918 - root - INFO - Logging initialized.
+2025-10-30 00:40:10,919 - root - INFO - Starting Word Guess Game...
+2025-10-30 00:40:11,242 - root - INFO - Loading fonts...
+2025-10-30 00:40:11,243 - root - INFO - Font loaded: Arial
+2025-10-30 00:40:11,243 - root - INFO - Applying theme...
+2025-10-30 00:40:11,245 - gui.components - INFO - Frame stack initialized.
+2025-10-30 00:40:11,332 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 00:40:11,333 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 00:40:11,333 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 00:40:11,333 - gui.components - INFO - Showing frame: Home
+2025-10-30 00:40:11,334 - root - INFO - All frames registered.
+2025-10-30 00:40:12,619 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 00:40:17,573 - gui.components - INFO - Showing frame: Home
+2025-10-30 00:40:18,513 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 00:40:19,877 - gui.components - INFO - Showing frame: Home
+2025-10-30 00:40:20,662 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 00:41:34,062 - root - INFO - Game closed.
+2025-10-30 00:50:23,192 - root - INFO - Logging initialized.
+2025-10-30 00:50:23,196 - root - INFO - Starting Word Guess Game...
+2025-10-30 00:50:23,565 - root - INFO - Loading fonts...
+2025-10-30 00:50:23,567 - root - INFO - Font loaded: Arial
+2025-10-30 00:50:23,567 - root - INFO - Applying theme...
+2025-10-30 00:50:23,569 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:00:28,283 - root - INFO - Logging initialized.
+2025-10-30 01:00:28,287 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:00:28,862 - root - INFO - Loading fonts...
+2025-10-30 01:00:28,866 - root - INFO - Font loaded: Arial
+2025-10-30 01:00:28,868 - root - INFO - Applying theme...
+2025-10-30 01:00:28,870 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:01:41,515 - root - INFO - Logging initialized.
+2025-10-30 01:01:41,516 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:01:41,928 - root - INFO - Loading fonts...
+2025-10-30 01:01:41,929 - root - INFO - Font loaded: Arial
+2025-10-30 01:01:41,930 - root - INFO - Applying theme...
+2025-10-30 01:01:41,932 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:01:42,015 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:01:42,016 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:01:42,016 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:01:42,017 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:01:42,018 - root - INFO - All frames registered.
+2025-10-30 01:01:43,248 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:01:45,947 - root - INFO - Game closed.
+2025-10-30 01:02:49,699 - root - INFO - Logging initialized.
+2025-10-30 01:02:49,700 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:02:50,217 - root - INFO - Loading fonts...
+2025-10-30 01:02:50,219 - root - INFO - Font loaded: Arial
+2025-10-30 01:02:50,220 - root - INFO - Applying theme...
+2025-10-30 01:02:50,224 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:02:50,310 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:02:50,311 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:02:50,312 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:02:50,312 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:02:50,313 - root - INFO - All frames registered.
+2025-10-30 01:02:51,433 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:02:54,868 - root - INFO - Game closed.
+2025-10-30 01:05:50,323 - root - INFO - Logging initialized.
+2025-10-30 01:05:50,324 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:05:50,656 - root - INFO - Loading fonts...
+2025-10-30 01:05:50,657 - root - INFO - Font loaded: Arial
+2025-10-30 01:05:50,658 - root - INFO - Applying theme...
+2025-10-30 01:05:50,660 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:05:50,745 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:05:50,745 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:05:50,745 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:05:50,746 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:05:50,746 - root - INFO - All frames registered.
+2025-10-30 01:05:52,862 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:05:55,602 - root - INFO - Game closed.
+2025-10-30 01:09:00,377 - root - INFO - Logging initialized.
+2025-10-30 01:09:00,379 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:09:00,734 - root - INFO - Loading fonts...
+2025-10-30 01:09:00,735 - root - INFO - Font loaded: Arial
+2025-10-30 01:09:00,735 - root - INFO - Applying theme...
+2025-10-30 01:09:00,736 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:09:00,818 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:09:00,819 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:09:00,820 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:09:00,820 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:09:00,821 - root - INFO - All frames registered.
+2025-10-30 01:09:02,107 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:09:03,149 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:09:04,218 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:09:05,505 - root - INFO - Game closed.
+2025-10-30 01:09:27,915 - root - INFO - Logging initialized.
+2025-10-30 01:09:27,916 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:09:28,258 - root - INFO - Loading fonts...
+2025-10-30 01:09:28,260 - root - INFO - Font loaded: Arial
+2025-10-30 01:09:28,262 - root - INFO - Applying theme...
+2025-10-30 01:09:28,266 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:10:39,141 - root - INFO - Logging initialized.
+2025-10-30 01:10:39,143 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:10:41,147 - root - INFO - Loading fonts...
+2025-10-30 01:10:41,150 - root - INFO - Font loaded: Arial
+2025-10-30 01:10:41,151 - root - INFO - Applying theme...
+2025-10-30 01:10:41,153 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:10:54,309 - root - INFO - Logging initialized.
+2025-10-30 01:10:54,311 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:10:54,636 - root - INFO - Loading fonts...
+2025-10-30 01:10:54,639 - root - INFO - Font loaded: Arial
+2025-10-30 01:10:54,640 - root - INFO - Applying theme...
+2025-10-30 01:10:54,643 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:17:17,134 - root - INFO - Logging initialized.
+2025-10-30 01:17:17,138 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:17:17,573 - root - INFO - Loading fonts...
+2025-10-30 01:17:17,575 - root - INFO - Font loaded: Arial
+2025-10-30 01:17:17,576 - root - INFO - Applying theme...
+2025-10-30 01:17:17,578 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:17:17,680 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:17:17,681 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:17:17,681 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:17:17,683 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:17:17,683 - root - INFO - All frames registered.
+2025-10-30 01:17:18,822 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:17:19,930 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:17:20,812 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:17:21,920 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:17:22,546 - gui.components - INFO - Showing frame: Play
+2025-10-30 01:17:23,517 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:17:24,247 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:17:25,852 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:17:26,778 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:17:30,851 - root - INFO - Game closed.
+2025-10-30 01:18:13,715 - root - INFO - Logging initialized.
+2025-10-30 01:18:13,716 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:18:14,143 - root - INFO - Loading fonts...
+2025-10-30 01:18:14,144 - root - INFO - Font loaded: Arial
+2025-10-30 01:18:14,144 - root - INFO - Applying theme...
+2025-10-30 01:18:14,146 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:18:14,235 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:18:14,236 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:18:14,237 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:18:14,238 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:18:14,238 - root - INFO - All frames registered.
+2025-10-30 01:18:15,876 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:18:17,595 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:18:19,144 - root - INFO - Game closed.
+2025-10-30 01:18:40,759 - root - INFO - Logging initialized.
+2025-10-30 01:18:40,760 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:18:41,082 - root - INFO - Loading fonts...
+2025-10-30 01:18:41,083 - root - INFO - Font loaded: Arial
+2025-10-30 01:18:41,083 - root - INFO - Applying theme...
+2025-10-30 01:18:41,087 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:18:41,180 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:18:41,181 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:18:41,181 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:18:41,181 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:18:41,181 - root - INFO - All frames registered.
+2025-10-30 01:18:42,318 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:18:45,170 - root - INFO - Game closed.
+2025-10-30 01:28:08,050 - root - INFO - Logging initialized.
+2025-10-30 01:28:08,053 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:28:08,436 - root - INFO - Loading fonts...
+2025-10-30 01:28:08,437 - root - INFO - Font loaded: Arial
+2025-10-30 01:28:08,438 - root - INFO - Applying theme...
+2025-10-30 01:28:08,443 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:30:13,060 - root - INFO - Logging initialized.
+2025-10-30 01:30:13,061 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:30:13,361 - root - INFO - Loading fonts...
+2025-10-30 01:30:13,361 - root - INFO - Font loaded: Arial
+2025-10-30 01:30:13,362 - root - INFO - Applying theme...
+2025-10-30 01:30:13,363 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:30:35,320 - root - INFO - Logging initialized.
+2025-10-30 01:30:35,320 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:30:35,644 - root - INFO - Loading fonts...
+2025-10-30 01:30:35,645 - root - INFO - Font loaded: Arial
+2025-10-30 01:30:35,646 - root - INFO - Applying theme...
+2025-10-30 01:30:35,647 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:30:35,717 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:30:35,718 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:30:35,718 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:30:35,718 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:30:35,719 - root - INFO - All frames registered.
+2025-10-30 01:30:38,057 - gui.components - ERROR - Frame 'setting' not found.
+2025-10-30 01:30:40,014 - root - INFO - Game closed.
+2025-10-30 01:31:21,042 - root - INFO - Logging initialized.
+2025-10-30 01:31:21,044 - root - INFO - Starting Word Guess Game...
+2025-10-30 01:31:21,404 - root - INFO - Loading fonts...
+2025-10-30 01:31:21,407 - root - INFO - Font loaded: Arial
+2025-10-30 01:31:21,408 - root - INFO - Applying theme...
+2025-10-30 01:31:21,409 - gui.components - INFO - Frame stack initialized.
+2025-10-30 01:31:21,545 - gui.components - INFO - Frame 'Home' registered.
+2025-10-30 01:31:21,546 - gui.components - INFO - Frame 'Play' registered.
+2025-10-30 01:31:21,546 - gui.components - INFO - Frame 'tutorial' registered.
+2025-10-30 01:31:21,547 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:31:21,547 - root - INFO - All frames registered.
+2025-10-30 01:31:23,153 - gui.components - ERROR - Frame 'setting' not found.
+2025-10-30 01:31:23,861 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:31:24,911 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:31:25,878 - gui.components - ERROR - Frame 'setting' not found.
+2025-10-30 01:31:27,978 - gui.components - ERROR - Frame 'setting' not found.
+2025-10-30 01:31:28,459 - gui.components - INFO - Showing frame: Play
+2025-10-30 01:31:29,758 - gui.home_window - INFO - Starting game with difficulty: ปานกลาง
+2025-10-30 01:31:29,759 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-30 01:31:30,459 - gui.home_window - INFO - Starting game with difficulty: ง่าย
+2025-10-30 01:31:30,459 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-30 01:31:30,692 - gui.home_window - INFO - Starting game with difficulty: ง่าย
+2025-10-30 01:31:30,693 - gui.components - ERROR - Frame 'Main' not found.
+2025-10-30 01:31:32,186 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:31:32,943 - gui.components - INFO - Showing frame: tutorial
+2025-10-30 01:31:34,128 - gui.components - INFO - Showing frame: Home
+2025-10-30 01:31:35,076 - gui.components - ERROR - Frame 'setting' not found.
+2025-10-30 01:31:35,288 - gui.components - ERROR - Frame 'setting' not found.
+2025-10-30 01:31:36,552 - root - INFO - Game closed.

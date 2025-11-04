@@ -1,3 +1,6 @@
+'''import sys
+from core.embedding_service import EmbeddingService
+
 import sys 
 from core import embedding_service
 
@@ -66,3 +69,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
