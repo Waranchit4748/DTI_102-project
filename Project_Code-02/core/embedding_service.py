@@ -4,7 +4,7 @@ import os
 import pickle
 import numpy as np # สำหรับการเก็บและคำนวณเวกเตอร์ embedding
 import logging # แสดง log ข้อมูล, warning, error ใน console
-from typing import Dict, List, Optional, Tuple
+from typing import Dict
 from sklearn.metrics.pairwise import cosine_similarity # คำนวณ cosine similarity ระหว่างเวกเตอร์
 from pathlib import Path # จัดการ path ของไฟล์ให้ทำงานได้ทั้ง Windows / Mac
 
@@ -34,7 +34,9 @@ CATEGORY_TEMPLATES: Dict[str, str] = {}
 
 # Load and Validate Embeddings
 
-def load_embeddings(level: str, category_templates: Optional[Dict[str,str]] = None) -> None:
+# โหลดข้อมูล embeddings จากไฟล์ .pkl สำหรับ level คำศัพท์ที่เลือก
+def load_embeddings(level, category_templates=None):
+    
     global _embedding_data, _word_to_idx, CATEGORY_TEMPLATES
     
     # ถ้ามี template ใหม่ ส่งเข้ามา -> อัปเดต global
@@ -79,21 +81,20 @@ def load_embeddings(level: str, category_templates: Optional[Dict[str,str]] = No
     )
     
 # Basic Getters
-def get_words(level: str) -> List[str]:
-    '''คืนรายการคำทั้งหมดสำหรับระดับคำศัพท์ที่กำหนด
-        level: ("easy", "medium", "hard")
-        return: List[str] — รายการคำทั้งหมด
-    '''
+
+# คืนรายการคำทั้งหมดสำหรับระดับคำศัพท์ที่กำหนด
+def get_words(level):
+
     return _embedding_data[level]["all_words"]
 
 # คืน dictionary ของคำที่จัดหมวดหมู่แล้วสำหรับ level คำศัพท์ที่กำหนด
-def get_words_by_category(level: str) -> Dict[str, List[str]]:
-    '''level: ("easy", "medium", "hard")
-        return: list ของคำในหมวดนั้น
-    '''
+def get_words_by_category(level) :
+
     return _embedding_data[level]["words_by_category"]
 
-def get_embedding(level: str, word: str) -> Optional[np.ndarray]:
+# คืนค่า embedding vector ของคำที่กำหนด
+def get_embedding(level, word):
+    
     # หา index ของคำใน embeddings array
     index = _word_to_idx[level].get(word)
     
@@ -105,44 +106,31 @@ def get_embedding(level: str, word: str) -> Optional[np.ndarray]:
     # คืน embedding vector ของคำนั้น
     return _embedding_data[level]["embeddings"][index]
 
-def get_category(level: str, word: str) -> str:
+# คืนชื่อหมวดหมู่ของคำที่กำหนด
+def get_category(level, word):
+    
     # loop ทุกหมวดหมู่และคำในหมวดนั้น
     for category, words in _embedding_data[level]["words_by_category"].items():
         if word in words:
             # # คืนหมวดหมู่ที่พบ
             return category
     return "unknown" # ถ้าไม่พบคำในทุกหมวด 
+
+# ตรวจสอบว่ามีคำนี้ใน level นั้นหรือไม่
+def has_word(level, word) :
+    return get_embedding(level, word) is not None
     
 # Similarity Computation
-def scaled_similarity(level, word_a, word_b):
-    
-    # ความคล้ายกันระหว่าง word_a กับ word_b
-    sim = similarity(level, word_a, word_b)
-    if sim is None :
-       return None
-   
-    # ดึงหมวดหมู่ของ word_a
-    category = get_category(level, word_a)
-    # คำนวณ similarity ของ word_a กับทุกคำในหมวดเดียวกัน
-    sims_in_category = [similarity(level, word_a, w) 
-                        for w in get_words_by_category(level).get(category, [])
-    ]
-    # หา min และ max ของ similarity ของ word_a กับคำทั้งหมดในหมวดเดียวกัน
-    min_s, max_s = min(sims_in_category), max(sims_in_category)
-    
-    # ถ้าช่วงไม่เป็นศูนย์ ให้ทำ min-max scaling เพื่อปรับ similarity ให้อยู่ระหว่าง 0-1
-    if max_s - min_s > 0:
-        sim_scaled = (sim - min_s) / (max_s - min_s)
-    # ถ้าช่วงเป็นศูนย์ (ทุกค่าเท่ากัน) คืนค่า similarity เดิม
-    else:
-        sim_scaled = sim
-        
-    # คืนค่า similarity ที่ปรับสเกลแล้ว
-    return sim_scaled
 
-def similarity(level: str, word_a: str, word_b: str) -> Optional[float]:
+# คำนวณ cosine similarity ระหว่างสองคำ
+def similarity(level, word_a, word_b):
     
     global _cache_hits, _cache_misses 
+    
+    # ถ้าคำ target กับคำ input เป็นคำเดียวกัน คืน 1.0 ทันที
+    if word_a == word_b:
+        return 1.0
+    
     # tuple ของคำสองคำเป็น key ของ cache (เรียงลำดับเพื่อให้ a-b กับ b-a เหมือนกัน)
     cache_key = tuple(sorted([word_a, word_b]))
     
@@ -158,7 +146,7 @@ def similarity(level: str, word_a: str, word_b: str) -> Optional[float]:
     embed_a = get_embedding(level, word_a)
     embed_b = get_embedding(level, word_b)
     
-    # 
+    # ถ้าไม่พบคำใดคำหนึ่ง คืน None
     if (embed_a is None or embed_b is None) :
         return None
     # เปลี่ยน "เวกเตอร์ 1 มิติ" ให้กลายเป็น "เมทริกซ์ 2 มิติ" ที่มีเพียงแถวเดียว
@@ -166,13 +154,106 @@ def similarity(level: str, word_a: str, word_b: str) -> Optional[float]:
     
     # คำนวณ cosine similarity
     sim = float(cosine_similarity(embed_a, embed_b)[0][0])
+    # จำกัดค่าให้อยู่ในช่วง 0.0 - 1.0
+    sim = max(0.0, min(1.0, sim))
     # เก็บผลใน cache
     _similarity_cache[cache_key] = sim
     
     return sim
 
-def similarities_batch(
-    level: str, word: str, all_words: Optional[List[str]] = None, use_cache: bool =True ) -> Dict[str, float] :
+# คำนวณ similarity ที่ปรับน้ำหนักตามความสัมพันธ์ของหมวดหมู่
+def adjusted_similarity(level, word_a, word_b):
+    
+    # ถ้าคำ target กับคำ input เป็นคำเดียวกัน คืน 1.0 ทันที
+    if word_a == word_b:
+        return 1.0
+    # คำนวณ cosine similarity
+    base_sim = similarity(level, word_a, word_b)
+    if base_sim is None :
+        return None
+    
+    # ดึงหมวดหมู่ของทั้งสองคำ
+    cat_a = get_category(level, word_a)
+    cat_b = get_category(level, word_b)
+    
+    # ถ้าคำอยู่ในหมวดเดียวกันคืนต่า similarity เดิม
+    if cat_a == cat_b :
+        return base_sim
+    
+    # กำหนดหมวดหมู่ที่แตกต่างกันมาก แยกตามระดับ
+    very_different = set()
+    
+    # level ง่าย: อาหาร กีฬา ห้องเรียน
+    if level == "easy" :
+        very_different = {
+            frozenset(["อาหาร", "กีฬา"]),
+            frozenset(["อาหาร", "ห้องเรียน"]),
+            frozenset(["กีฬา", "ห้องเรียน"]),
+        }
+    
+    # level ปานกลาง: อาชีพ สัตว์ ร่างกาย สถานที่ ห้องครัว วิชาการ  
+    elif level == "medium" :
+        very_different = {
+            frozenset(["สัตว์", "ห้องครัว"]),
+            frozenset(["สัตว์", "อาชีพ"]),
+            frozenset(["สัตว์", "วิชาการ"]),
+            
+            frozenset(["ร่างกาย", "ห้องครัว"]),
+            frozenset(["ร่างกาย", "สถานที่"]),
+            
+            frozenset(["อาชีพ", "ห้องครัว"]),
+            frozenset(["วิชาการ", "ห้องครัว"]),
+            frozenset(["อาชีพ", "สัตว์"]),
+            
+            frozenset(["สถานที่", "ร่างกาย"]),
+            frozenset(["สถานที่", "สัตว์"]),
+        }
+    
+    # level ยาก: จังหวัด เครื่องดนตรี ห้องนอน ฟาร์มปศุสัตว์ เครื่องใช้ไฟฟ้า ชายทะเล ของเล่น ธรรมชาติ อารมณ์ความรู้สึก
+    elif level == "hard" :
+        very_different = {
+            frozenset(["อารมณ์ความรู้สึก", "เครื่องดนตรี"]),
+            frozenset(["อารมณ์ความรู้สึก", "ห้องนอน"]),
+            frozenset(["อารมณ์ความรู้สึก", "เครื่องใช้ไฟฟ้า"]),
+            frozenset(["อารมณ์ความรู้สึก", "ของเล่น"]),
+            frozenset(["อารมณ์ความรู้สึก", "ฟาร์มปศุสัตว์"]),
+            
+            frozenset(["จังหวัด", "เครื่องดนตรี"]),
+            frozenset(["จังหวัด", "ห้องนอน"]),
+            frozenset(["จังหวัด", "ของเล่น"]),
+            frozenset(["ชายทะเล", "เครื่องดนตรี"]),
+            frozenset(["ชายทะเล", "ห้องนอน"]),
+            
+            frozenset(["ธรรมชาติ", "เครื่องใช้ไฟฟ้า"]),
+            frozenset(["ธรรมชาติ", "ห้องนอน"]),
+            frozenset(["ธรรมชาติ", "ของเล่น"]),
+            
+            frozenset(["ฟาร์มปศุสัตว์", "ห้องนอน"]),
+            frozenset(["ฟาร์มปศุสัตว์", "เครื่องดนตรี"]),
+            
+            frozenset(["เครื่องดนตรี", "เครื่องใช้ไฟฟ้า"]),
+            frozenset(["เครื่องดนตรี", "ของเล่น"]),
+        }
+        
+    # สร้าง frozenset ของคู่หมวดหมู่ที่กำลังเปรียบเทียบ
+    compare_category = frozenset([cat_a, cat_b])
+    
+    # ปรับน้ำหนักค่า similarity ตามความใกล้เคียงกันของหมวดหมู่
+    
+    # ถ้าอยู่ในคู่หมวดที่แตกต่างกันมากลดเหลือ 40 % 
+    if compare_category in very_different :
+        sim_adjusted = base_sim * 0.4
+    # ถ้าเป็นหมวดต่างกันทั่วไป ลดเหลือ 70%
+    else :
+        sim_adjusted = base_sim * 0.7
+        
+    # จำกัดค่าให้อยู่ในช่วง 0.0 - 1.0    
+    sim_adjusted = max(0.0, min(1.0, sim_adjusted))
+    # ค่า similarity ที่ถูกปรับแล้ว
+    return sim_adjusted
+
+# คำนวณ similarity ของคำหนึ่งเทียบกับคำทั้งหมดในชุด
+def similarities_batch(level, word, all_words=None, use_cache=True ):
     
     global _cache_hits, _cache_misses
     
@@ -191,27 +272,46 @@ def similarities_batch(
     # ถ้าไม่ได้ระบุ all_words ให้ใช้คำทั้งหมดของระดับนั้น
     if (all_words is None) :
         all_words = _embedding_data[level]["all_words"]
+        
+    # กรองเฉพาะคำที่มีอยู่ใน word_to_idx    
+    valid_words = [w for w in all_words if w in _word_to_idx[level]]
+    # ถ้าไม่มีคำ valid คืน empty dict
+    if not valid_words:
+        logger.warning(f"[similarities_batch] No valid words found for level {level}")
+        return {}
     
     # ดึง index ของคำทั้งหมดที่ต้องคำนวณ
-    indices = [i for w, i in _word_to_idx[level].items() if w in all_words]
+    indices = [_word_to_idx[level][w] for w in valid_words]
+    
+    # ตรวจสอบว่า indices ไม่เกินขอบเขตของ embeddings array
+    max_idx = len(_embedding_data[level]["embeddings"]) - 1
+    safe_indices = [idx for idx in indices if idx <= max_idx]
+    
     if not indices :
         return {}
     # ดึง embedding ของคำทั้งหมด
-    all_embs = _embedding_data[level]["embeddings"][indices]
+    all_embs = _embedding_data[level]["embeddings"][safe_indices]
     
     # เปลี่ยน "เวกเตอร์ 1 มิติ" ให้กลายเป็น "เมทริกซ์ 2 มิติ" ที่มีเพียงแถวเดียว
     emb_input = emb_input.reshape(1, -1)
     # คำนวณ cosine similarity เป็น array
     sims = cosine_similarity(emb_input, all_embs)[0]
     
-    result = {w: float(sims[i]) for i, w in enumerate(all_words) if w in _word_to_idx[level]}
+    # สร้าง dictionary ของผลลัพธ์
+    result = {}
+
+    for i, w in enumerate(valid_words):
+        if i < len(sims):
+            result[w] = float(sims[i])
+    
+    # 
     if use_cache and len(all_words) == len(_embedding_data[level]["all_words"]):
         _batch_cache[word] = result.copy()
         
     return result
 
 # คืนรายการคำที่คล้ายกับ `word` มากที่สุด n คำ
-def get_top_similar(level: str, word: str, n: int = 10, exclude_self: bool = True):
+def get_top_similar(level, word, n, exclude_self=True):
     # คำนวณ similarity กับทุกคำใน level เดียวกัน
     sims = similarities_batch(level, word)
     
@@ -228,7 +328,8 @@ def get_top_similar(level: str, word: str, n: int = 10, exclude_self: bool = Tru
 
 # Cache Management
 
-def precompute_similarities(level: str, words_to_cache: Optional[List[str]] = None):
+# คำนวณ similarities ล่วงหน้าสำหรับคำทั้งหมด เพื่อเก็บลง cache
+def precompute_similarities(level, words_to_cache=None):
     
     if (words_to_cache is None):
         words_to_cache = _embedding_data[level]["all_words"]
@@ -258,7 +359,7 @@ def clear_cache():
     logger.info("Cache cleared")
 
 # คืนค่าข้อมูลสถิติของ cache ทั้งหมด
-def get_cache_stats() -> dict :
+def get_cache_stats() :
     total = _cache_hits + _cache_misses
     hit_rate = (_cache_hits / total * 100) if total > 0 else 0
     return {
@@ -270,7 +371,7 @@ def get_cache_stats() -> dict :
     }
 
 # คืนข้อมูลสรุปเกี่ยวกับ embeddings ใน level คำศัพท์ที่กำหนด
-def get_info(level: str) -> dict :
+def get_info(level) :
     data = _embedding_data[level]
     return {
         "level": level, # คำศัพท์ (easy/medium/hard)

@@ -42,7 +42,7 @@ CATEGORY_TEMPLATES = {
 }
 
 # LOAD WORDS :
-def load_words_from_txt(txt_path: str):
+def load_words_from_txt(txt_path):
     '''อ่านไฟล์ .txt แล้วแยกคำศัพท์ออกตามหมวดหมู่'''
     
     all_words = [] # เก็บคำทั้งหมด
