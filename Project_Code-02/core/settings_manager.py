@@ -15,7 +15,7 @@ DEFAULT_CONFIG = {
     },
     "audio": {
         "sound_enabled": True,
-        "volume": 0.7
+        "volume": 0.6
     },
     "language": "th"
 }

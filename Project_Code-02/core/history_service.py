@@ -2,7 +2,7 @@ import json
 import shutil
 from datetime import datetime
 
-HISTORY_FILE = "game_history.json"
+HISTORY_FILE = "data/game_history.json"
 
 #บันทึกประวัติเกมลงไฟล์ history
 def save_history(new_game):
@@ -30,7 +30,7 @@ def load_history(limit=None):
     except:
         return []
 
-#
+
 def get_recent(n = 10):
     history = load_history()
     return history[-n:] if len(history) > n else history

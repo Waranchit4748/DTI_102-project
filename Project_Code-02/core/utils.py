@@ -87,14 +87,14 @@ def get_feedback_emoji(score):
     try:
         score = float(score)
     except (ValueError, TypeError):
-        return "💀"
+        return " "
     if score >= 80:
-        return "😍"
+        return " "
     elif score >= 60:
-        return "😊"
+        return " "
     elif score >= 40:
-        return "😐"
+        return " "
     elif score >= 20:
-        return "😢"
+        return " "
     else:
-        return "💀"
+        return " "
