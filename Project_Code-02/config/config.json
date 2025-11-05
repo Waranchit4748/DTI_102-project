@@ -1,0 +1,16 @@
+{
+  "game": {
+    "time_limit": 180,
+    "max_guesses": 50,
+    "starting_difficulty": "easy"
+  },
+  "display": {
+    "theme": "dark",
+    "show_hints": true
+  },
+  "audio": {
+    "sound_enabled": true,
+    "volume": 0.7
+  },
+  "language": "th"
+}

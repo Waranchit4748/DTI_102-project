@@ -1,0 +1,12 @@
+[
+  {
+    "result": "win",
+    "guesses": [
+      "apple",
+      "grape"
+    ],
+    "hints_used": 1,
+    "avg_similarity": 0.9,
+    "duration_sec": 45
+  }
+]
