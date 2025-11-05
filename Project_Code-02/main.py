@@ -4,6 +4,8 @@ import customtkinter as ctk
 from gui.components import init_stack, register, show
 from gui.home_window import create_home_ui, create_play_ui
 from gui.main_window import create_game_ui 
+from gui.tutorial_window import create_tutorial_ui
+from gui.settings_window import create_settings_ui
 
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
 def setup_logging():
@@ -36,6 +38,8 @@ def register_frames(stack: dict, root: ctk.CTk):
     frames = {
         "Home": create_home_ui(root, stack),   # หน้าหลักของเกม
         "Play": create_play_ui(root, stack),   # หน้าเลือกระดับความยาก
+        "tutorial": create_tutorial_ui(root, stack),  #หน้าคุ่มือ
+        "settings": create_settings_ui(root, stack),  #หน้าตั้งค่า
         "Main": create_game_ui(root, stack)    # หน้าเล่นเกม
     }
     
