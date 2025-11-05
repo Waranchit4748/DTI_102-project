@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG) # ตั้งระดับการบันทึก log เป็น DEBUG (ละเอียดสุด)
 
 # สร้างปุ่ม 
-def create_button(parent, text: str, command, **kwargs) -> ctk.CTkButton:
+def create_button(parent, text: str, command, **kwargs):
     default_kwargs = {'font': ('Sarabun', 16), # กำหนดฟอนต์และขนาดตัวอักษร
                       'corner_radius': 10,   # มุมโค้งของปุ่ม
                       'height': 50,  # ความสูงของปุ่ม
@@ -16,19 +16,19 @@ def create_button(parent, text: str, command, **kwargs) -> ctk.CTkButton:
     return ctk.CTkButton(parent, text=text, command=command, **default_kwargs)
 
 # สร้าง label ของข้อความ
-def create_label(parent, text: str, **kwargs) -> ctk.CTkLabel:
+def create_label(parent, text: str, **kwargs):
     default_kwargs = {'font': ('Sarabun', 14), 'text_color': '#000000'}
     default_kwargs.update(kwargs)
     return ctk.CTkLabel(parent, text=text, **default_kwargs)
 
 # # สร้างช่องกรอกข้อความ
-def create_entry(parent, placeholder: str = "", **kwargs) -> ctk.CTkEntry:
+def create_entry(parent, placeholder: str = "", **kwargs):
     default_kwargs = {'font': ('Sarabun', 16), 'height': 40, 'corner_radius': 8}
     default_kwargs.update(kwargs)
     return ctk.CTkEntry(parent, placeholder_text=placeholder, **default_kwargs)
 
 # สร้างแถบแสดงความคืบหน้า
-def create_progress_bar(parent, **kwargs) -> ctk.CTkProgressBar:
+def create_progress_bar(parent, **kwargs):
     default_kwargs = {'height': 20, 'corner_radius': 10}
     default_kwargs.update(kwargs)
     pb = ctk.CTkProgressBar(parent, **default_kwargs)
@@ -36,7 +36,7 @@ def create_progress_bar(parent, **kwargs) -> ctk.CTkProgressBar:
     return pb
 
 # สร้าง Stack สำหรับจัดการ frame ต่าง ๆ ของแอป
-def init_stack(root: ctk.CTk) -> Dict:
+def init_stack(root: ctk.CTk):
     stack = {"root": root, # อ้างอิงหน้าต่างหลัก
             "frames": {}, # เก็บ frame ทั้งหมดในรูป dict
             "current": None # เก็บชื่อ frame ที่กำลังแสดงอยู่
@@ -66,5 +66,5 @@ def show(stack: Dict, name: str):
     logger.info(f"Showing frame: {name}")
 
 # ดึงชื่อ frame ปัจจุบันที่กำลังแสดงอยู่
-def get_current(stack: Dict) -> Optional[str]:
+def get_current(stack: Dict):
     return stack.get("current") # คืนค่าเป็นชื่อ frame
