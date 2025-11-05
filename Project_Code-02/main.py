@@ -1,7 +1,9 @@
 import logging
+import os
 import customtkinter as ctk
 from gui.components import init_stack, register, show
 from gui.home_window import create_home_ui, create_play_ui
+from gui.main_window import create_game_ui 
 
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
 def setup_logging():
@@ -32,8 +34,9 @@ def apply_theme(root: ctk.CTk):
 # ลงทะเบียนและสร้าง Frame หลักของโปรแกรม
 def register_frames(stack: dict, root: ctk.CTk):
     frames = {
-        "Home": create_home_ui(root, stack), # หน้าหลักของเกม
-        "Play": create_play_ui(root, stack) # หน้าสำหรับเล่นเกม
+        "Home": create_home_ui(root, stack),   # หน้าหลักของเกม
+        "Play": create_play_ui(root, stack),   # หน้าเลือกระดับความยาก
+        "Main": create_game_ui(root, stack)    # หน้าเล่นเกม
     }
     
     # วนเพิ่มแต่ละ frame เข้าสู่ stack
@@ -44,13 +47,31 @@ def register_frames(stack: dict, root: ctk.CTk):
     logging.info("All frames registered.")
     return stack
 
+#
+def cleanup_on_exit():
+    for file in ["history.json", "achievements.json"]:
+        if os.path.exists(file):
+            try:
+                os.remove(file)
+                logging.info(f"Deleted {file}")
+            except Exception as e:
+                logging.error(f"Failed to delete {file}: {e}")
+        else:
+            logging.debug(f"{file} not found")
+
+#
+def on_closing(root):
+    logging.info("Closing game window...")
+    cleanup_on_exit()
+    root.destroy()
+
 # ฟังก์ชันหลักในการรันเกม
 def run_game():
     setup_logging() # เรียกใช้ระบบ logging
     logging.info("Starting Word Guess Game...")
 
     root = ctk.CTk()
-    root.title("Word Guess Challenge") # ตั้งชื่อหน้าต่างเกม
+    root.title("เกมเดาให้ได้ ถ้าเธอแน่จริง") # ตั้งชื่อหน้าต่างเกม
     root.geometry("700x700") # กำหนดขนาดหน้าต่าง
     root.resizable(False, False)
 
@@ -63,6 +84,6 @@ def run_game():
     root.mainloop() # เริ่มลูปหลักของ GUI (แสดงหน้าต่างเกม)
     logging.info("Game closed.")
 
-# จุดเริ่มต้นของโปรแกรม
+# เริ่มต้นของโปรแกรม
 if __name__ == "__main__":
     run_game() # เรียกให้โปรแกรมเริ่มทำงาน
