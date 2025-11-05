@@ -3,7 +3,7 @@ def normalize_text(text):
     if not isinstance(text, str):
         return ""
     return text.strip().lower()
-
+ 
 #แปลงวินาทีเป็น นาที:วินาที
 def format_time(seconds):
     try:
@@ -14,7 +14,7 @@ def format_time(seconds):
     sec = abs(seconds) % 60
     s = f"{minutes:02d}:{sec:02d}"
     return "-" + s if seconds < 0 else s
-
+ 
 #แปลงตัวเลขเป็นเปอร์เซ็นต์
 def format_percentage(value):
     try:
@@ -22,7 +22,7 @@ def format_percentage(value):
     except (ValueError, TypeError):
         return "0%"
     return str(round(value * 100)) + "%"
-
+ 
 #คำนวณประสิทธิภาพ
 def calculate_efficiency(correct_count, total_time):
     try:
@@ -33,7 +33,7 @@ def calculate_efficiency(correct_count, total_time):
     if total_time <= 0:
         return 0
     return correct_count / total_time
-
+ 
 #ตรวจสอบว่าระดับอยู่ในช่วงที่กำหนด
 def validate_level(level, min_level=1, max_level=10):
     try:
@@ -45,14 +45,14 @@ def validate_level(level, min_level=1, max_level=10):
     if level > max_level:
         return max_level
     return level
-
+ 
 #หารเลข
 def safe_divide(a, b, default=0):
     try:
         return a / b if b != 0 else default
     except (TypeError, ZeroDivisionError):
         return default
-
+ 
 #จำกัดค่าระหว่างต่ำสุดกับสูงสุด
 def clamp(value, low, high):
     try:
@@ -66,7 +66,7 @@ def clamp(value, low, high):
     if value > high:
         return high
     return value
-
+ 
 #ตัดข้อความถ้ายาวเกินไป
 def truncate_text(text, max_length=10):
     """
@@ -81,4 +81,3 @@ def truncate_text(text, max_length=10):
     if max_length <= 3:
         return '.' * max_length
     return text[:max_length - 3] + "..."
-
