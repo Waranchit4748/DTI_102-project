@@ -8,30 +8,24 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ตั้งค่าตัว logger สำหรับบันทึกเหตุการณ์
 logger = logging.getLogger(__name__)
 
-# Mock Game Manager
-class MockGameManager:
-    
-    # ตัวสร้าง (constructor) ของคลาสจำลองเกม
-    def __init__(self):
-        self.hints_used = 0 # ตัวแปรนับจำนวนคำใบ้ที่ใช้แล้ว
-        self.max_hints = 3 # จำกัดจำนวนคำใบ้สูงสุด
-        self.answer = "แมว" # คำตอบจำลองของเกม
+# Mock up เกม
+answer = "แมว"       # คำตอบจริง
+hints_used = 0        # นับจำนวนคำใบ้
+max_hints = 3         # จำนวนคำใบ้สูงสุด
 
-    # ตรวจสอบว่าคำตอบของผู้เล่นตรงกับคำตอบจริงหรือไม่
-    def check_guess(self, guess):
-        return guess.lower() == self.answer.lower()
+# ตรวจสอบว่าคำตอบของผู้เล่นตรงกับคำตอบจริงหรือไม่
+def check_guess(guess):
+        return guess.lower() == answer.lower()
 
-    # คืนค่าคำใบ้ตามลำดับ (สูงสุด 3 ครั้ง)
-    def get_hint(self):
-        hints = ["คำใบ้ที่ 1: เป็นสัตว์เลี้ยง", "คำใบ้ที่ 2: ชอบปลา", "คำใบ้ที่ 3: มีหนวด"]
-        if self.hints_used < self.max_hints:
-            hint = hints[self.hints_used]  # ดึงคำใบ้ตามจำนวนที่ใช้ไป
-            self.hints_used += 1
-            return hint
-        return "ไม่มีคำใบ้แล้ว!"  # ถ้าใช้หมดแล้ว
-
-# อินสแตนซ์ของเกม (ใช้ทดสอบการทำงาน)
-game_manager = MockGameManager()
+# คืนค่าคำใบ้ตามลำดับ (สูงสุด 3 ครั้ง)
+def get_hint():
+    global hints_used
+    hints = ["คำใบ้ที่ 1: เป็นสัตว์เลี้ยง", "คำใบ้ที่ 2: ชอบปลา", "คำใบ้ที่ 3: มีหนวด"]
+    if hints_used < max_hints:
+        hint = hints[hints_used]  # ดึงคำใบ้ตามจำนวนที่ใช้ไป
+        hints_used += 1
+        return hint
+    return "ไม่มีคำใบ้แล้ว!"  # ถ้าใช้หมดแล้ว
 
 # ฟังก์ชันวัด similarity ด้วย cosine similarity
 vectorizer = CountVectorizer(token_pattern=r"(?u)\b\w+\b")  # แปลงข้อความเป็นเวกเตอร์คำ
@@ -208,12 +202,12 @@ def create_game_ui(root, stack):
             return
         
         # คำนวณความคล้ายระหว่างคำทายกับคำตอบจริง
-        sim = cosine_similarity_percent(text, game_manager.answer)
+        sim = cosine_similarity_percent(text, answer)
         guess_history.append({'guess': text, 'similarity': sim})
         refresh_history()
 
         # ตรวจว่าทายถูกหรือไม่
-        if game_manager.check_guess(text):
+        if check_guess(text):
             feedback_label.configure(text="คุณทายคำถูกต้อง!", text_color="green")
             stop_timer()
         else:
@@ -221,13 +215,13 @@ def create_game_ui(root, stack):
 
     # คำใบ้
     def show_hint():
-        hint = game_manager.get_hint()
-        hint_counter_label.configure(text=f"คำใบ้: {game_manager.hints_used}/3")
+        hint = get_hint()
+        hint_counter_label.configure(text=f"คำใบ้: {hints_used}/3")
         feedback_label.configure(text=hint, text_color="black")
 
     # ยอมแพ้
     def give_up_clicked():
-        feedback_label.configure(text=f"ยอมแพ้แล้ว! เฉลยคือ {game_manager.answer}", text_color="red")
+        feedback_label.configure(text=f"ยอมแพ้แล้ว! เฉลยคือ {answer}", text_color="red")
         stop_timer()
         stack.show("Play")  # กลับไปหน้าหลัก
 
