@@ -18,7 +18,7 @@ def save_history(new_game):
         json.dump(history, f, ensure_ascii=False, indent=2)
 
 #โหลดประวัติการเล่น
-def load_history(limit=None):
+def load_history(limit=10):
     try:
         with open(HISTORY_FILE, "r", encoding="utf-8") as f:
             history = json.load(f)

@@ -82,19 +82,3 @@ def truncate_text(text, max_length=10):
         return '.' * max_length
     return text[:max_length - 3] + "..."
 
-#emojiตามคะแนน
-def get_feedback_emoji(score):
-    try:
-        score = float(score)
-    except (ValueError, TypeError):
-        return " "
-    if score >= 80:
-        return " "
-    elif score >= 60:
-        return " "
-    elif score >= 40:
-        return " "
-    elif score >= 20:
-        return " "
-    else:
-        return " "

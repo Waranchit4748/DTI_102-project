@@ -15,7 +15,7 @@ DEFAULT_CONFIG = {
     },
     "audio": {
         "sound_enabled": True,
-        "volume": 0.6
+        "volume": 0.5
     },
     "language": "th"
 }
@@ -50,7 +50,7 @@ def set_theme(theme):
 #การตั้งค่าเสียง
 def get_volume():
     config = load_config()
-    return config.get("audio", {}).get("volume", 0.7)
+    return config.get("audio", {}).get("volume", 0.5)
 
 #การคืนค่าเสียง
 def set_volume(volume):
