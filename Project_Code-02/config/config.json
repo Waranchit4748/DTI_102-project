@@ -5,7 +5,7 @@
     "starting_difficulty": "easy"
   },
   "display": {
-    "theme": "dark",
+    "theme": "light",
     "show_hints": true
   },
   "audio": {
