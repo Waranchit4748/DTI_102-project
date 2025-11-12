@@ -82,10 +82,7 @@ def set_setting(name, value):
 #รีเซ็ตค่า config เป็นค่า default
 def reset_config():
     save_config(DEFAULT_CONFIG.copy())
-        "volume": 0.7
-    },
-    "language": "th"
-}
+
 
 def _ensure_config_file() -> None:
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
