@@ -8,6 +8,8 @@ from gui.summary_window import create_summary_ui
 from gui.tutorial_window import create_tutorial_ui
 from gui.settings_window import create_settings_ui
 from core.settings_manager import load_config, save_config, set_theme, set_volume, initialize_music, play_music
+from gui.tutorial_window import create_tutorial_ui
+from gui.settings_window import create_settings_ui
 
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
 def setup_logging():
@@ -44,6 +46,7 @@ def register_frames(root, stack):
         "settings": create_settings_ui(root, stack),  #หน้าตั้งค่า
         "Main": create_game_ui(root, stack),   # หน้าเล่นเกม
         "Summary": create_summary_ui(root, stack) # หน้าสรุปผล
+        "Main": create_game_ui(root, stack)    # หน้าเล่นเกม
     }
     
     # วนเพิ่มแต่ละ frame เข้าสู่ stack
