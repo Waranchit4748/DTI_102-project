@@ -4,7 +4,7 @@ import random
 import json
 import logging
 from pathlib import Path
-from core.embedding_service import get_words, get_words_by_category, load_embeddings, _embedding_data
+from core.embedding_service import get_words, get_words_by_category, load_embeddings, embedding_data
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ def load_words(level) :
     """โหลดคำศัพท์ทั้งหมดจากระดับที่กำหนด"""
     
     # ตรวจสอบว่ามี embedding data หรือยัง ถ้าไม่มีให้โหลด
-    if level not in _embedding_data :
+    if level not in embedding_data :
         try :
             # ถ้ายังไม่มี ให้โหลด embeddings จากไฟล์
             load_embeddings(level)
@@ -41,7 +41,7 @@ def load_words_by_category_dict(level) :
     """โหลดคำศัพท์แยกตามหมวดหมู่"""
 
     # ตรวจสอบและโหลด embeddings ถ้ายังไม่มี
-    if level not in _embedding_data :
+    if level not in embedding_data :
         load_embeddings(level)
     
     # dictionary ที่มี key เป็นหมวดหมู่ และ value เป็นรายการคำ 
