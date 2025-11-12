@@ -3,7 +3,7 @@ from pathlib import Path
 
 ACHIEVEMENT_FILE = Path("data/achievements.json")
 
-# 🔹 Achievement ทั้งหมดที่มีในระบบ
+# Achievement ทั้งหมดที่มีในระบบ
 ACHIEVEMENT_DEFINITIONS = {
     "first_win": {
         "name": "ชัยชนะครั้งแรก",
