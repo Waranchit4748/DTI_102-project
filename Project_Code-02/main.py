@@ -4,6 +4,10 @@ import customtkinter as ctk
 from gui.components import init_stack, register, show
 from gui.home_window import create_home_ui, create_play_ui
 from gui.main_window import create_game_ui 
+from gui.summary_window import create_summary_ui
+from gui.tutorial_window import create_tutorial_ui
+from gui.settings_window import create_settings_ui
+from core.settings_manager import load_config, save_config, set_theme, set_volume, initialize_music, play_music
 
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
 def setup_logging():
@@ -32,11 +36,14 @@ def apply_theme(root: ctk.CTk):
         logging.debug("Default color theme not found, using built-in theme.")
 
 # ลงทะเบียนและสร้าง Frame หลักของโปรแกรม
-def register_frames(stack: dict, root: ctk.CTk):
+def register_frames(root, stack):
     frames = {
         "Home": create_home_ui(root, stack),   # หน้าหลักของเกม
         "Play": create_play_ui(root, stack),   # หน้าเลือกระดับความยาก
-        "Main": create_game_ui(root, stack)    # หน้าเล่นเกม
+        "tutorial": create_tutorial_ui(root, stack),  #หน้าคุ่มือ
+        "settings": create_settings_ui(root, stack),  #หน้าตั้งค่า
+        "Main": create_game_ui(root, stack),   # หน้าเล่นเกม
+        "Summary": create_summary_ui(root, stack) # หน้าสรุปผล
     }
     
     # วนเพิ่มแต่ละ frame เข้าสู่ stack
@@ -47,7 +54,7 @@ def register_frames(stack: dict, root: ctk.CTk):
     logging.info("All frames registered.")
     return stack
 
-#
+# ลบไฟล์ชั่วคราวเมื่อปิดเกม
 def cleanup_on_exit():
     for file in ["history.json", "achievements.json"]:
         if os.path.exists(file):
@@ -59,7 +66,7 @@ def cleanup_on_exit():
         else:
             logging.debug(f"{file} not found")
 
-#
+# จัดการเมื่อปิดหน้าต่าง
 def on_closing(root):
     logging.info("Closing game window...")
     cleanup_on_exit()
@@ -79,8 +86,12 @@ def run_game():
     apply_theme(root) # ตั้งค่าธีม
 
     stack = init_stack(root)
-    register_frames(stack, root) # สร้างและลงทะเบียน Frame
+    register_frames(root, stack) # สร้างและลงทะเบียน Frame
 
+    # เริ่มเล่นเพลง
+    initialize_music()
+    
+    root.protocol("WM_DELETE_WINDOW", lambda: on_closing(root))
     root.mainloop() # เริ่มลูปหลักของ GUI (แสดงหน้าต่างเกม)
     logging.info("Game closed.")
 
