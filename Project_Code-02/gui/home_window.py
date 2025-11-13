@@ -91,18 +91,35 @@ def create_play_ui(root: ctk.CTk, stack: Dict):
  
     # ปุ่มเลือกระดับความยากแต่ละแบบ (ง่าย / ปานกลาง / ยาก)
     create_button(inner, text="ระดับง่าย", text_color="white", fg_color="#3B8ED0",
-                  command=lambda: start_game(stack, "ง่าย"), width=220).pack(pady=8)
+                  command=lambda: start_game(stack, "easy"), width=220).pack(pady=8)
     create_button(inner, text="ระดับปานกลาง", text_color="white", fg_color="#3B8ED0",
-                  command=lambda: start_game(stack, "ปานกลาง"), width=220).pack(pady=8)
+                  command=lambda: start_game(stack, "medium"), width=220).pack(pady=8)
     create_button(inner, text="ระดับยาก", text_color="white", fg_color="#3B8ED0",
-                  command=lambda: start_game(stack, "ยาก"), width=220).pack(pady=8)
- 
+                  command=lambda: start_game(stack, "hard"), width=220).pack(pady=8)
+
     return frame
  
 # ฟังก์ชันเริ่มเกม (เมื่อเลือกความยากแล้ว)
 def start_game(stack, difficulty):
     # บันทึกข้อความใน log ว่าผู้เล่นเลือกความยากระดับใด
     logger.info(f"Starting game with difficulty: {difficulty}")
- 
-    # เปลี่ยนหน้าไปยัง "Main" ซึ่งเป็นหน้าหลักของเกม
-    show(stack, "Main")
+
+    from core.game_manager import start_game as init_game
+    
+    try:
+        # เริ่มเกมใหม่ตามระดับที่เลือก
+        game_info = init_game(difficulty)
+        logger.info(f"Game initialized: {game_info}")
+        
+        # เรียก reset_game_ui ของ Main frame เพื่อรีเซ็ต UI
+        if "Main" in stack["frames"]:
+            main_frame = stack["frames"]["Main"]
+            if hasattr(main_frame, 'reset_game'):
+                main_frame.reset_game(difficulty)
+        
+        # สลับไปหน้าเกม
+        show(stack, "Main")
+
+    except Exception as e:
+        logger.error(f"Failed to start game: {e}", exc_info=True)
+        # แสดง error dialog ที่นี้

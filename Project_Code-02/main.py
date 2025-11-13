@@ -36,7 +36,7 @@ def apply_theme(root: ctk.CTk):
         logging.debug("Default color theme not found, using built-in theme.")
  
 # ลงทะเบียนและสร้าง Frame หลักของโปรแกรม
-def register_frames(stack: dict, root: ctk.CTk):
+def register_frames(root, stack):
     frames = {
         "Home": create_home_ui(root, stack),   # หน้าหลักของเกม
         "Play": create_play_ui(root, stack),   # หน้าเลือกระดับความยาก
@@ -53,8 +53,8 @@ def register_frames(stack: dict, root: ctk.CTk):
     show(stack, "Home") # แสดงหน้าแรกเป็นหน้า Home
     logging.info("All frames registered.")
     return stack
- 
-#
+
+# ลบไฟล์ชั่วคราวเมื่อปิดเกม
 def cleanup_on_exit():
     for file in ["history.json", "achievements.json"]:
         if os.path.exists(file):
@@ -65,8 +65,8 @@ def cleanup_on_exit():
                 logging.error(f"Failed to delete {file}: {e}")
         else:
             logging.debug(f"{file} not found")
- 
-#
+
+# จัดการเมื่อปิดหน้าต่าง
 def on_closing(root):
     logging.info("Closing game window...")
     cleanup_on_exit()
@@ -86,8 +86,12 @@ def run_game():
     apply_theme(root) # ตั้งค่าธีม
  
     stack = init_stack(root)
-    register_frames(stack, root) # สร้างและลงทะเบียน Frame
- 
+    register_frames(root, stack) # สร้างและลงทะเบียน Frame
+
+    # เริ่มเล่นเพลง
+    initialize_music()
+    
+    root.protocol("WM_DELETE_WINDOW", lambda: on_closing(root))
     root.mainloop() # เริ่มลูปหลักของ GUI (แสดงหน้าต่างเกม)
     logging.info("Game closed.")
  
