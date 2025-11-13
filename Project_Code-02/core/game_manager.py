@@ -5,10 +5,11 @@ from core.embedding_service import similarity, has_word, get_top_similar, get_ca
     adjusted_similarity
 from core.ranking_service import rank_words, get_rank_for_word
 from core.difficulty_loader import get_random_target, load_words
-# from core.history_service import save_history
-# from core.achievement_service import check_unlock
+from core.history_service import save_history
+from core.achievement_service import check_unlock
 from core.utils import normalize_text
 import random
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -170,14 +171,37 @@ def check_guess(guess):
         logger.info(f"[WIN] Player guessed target '{target}'")
         end_round("win")
 
-    return {
-        "status": "ok",
-        "score": float(score),
-        "is_win": is_win,
-        "rank": rank,
-        "message": _get_feedback_message(score, is_win),
-        "guess_count": len(game_state['guesses'])
-    }
+        try:
+            with open("data/game_history.json", "r", encoding="utf-8") as f:
+                history = json.load(f)
+                summary = history[-1] if history else {}
+        except FileNotFoundError:
+            summary = {}
+
+        return {
+            "status": "ok",
+            "score": float(score),
+            "is_win": True,
+            "rank": rank,
+            "message": _get_feedback_message(score, True),
+            "guess_count": len(game_state['guesses']),
+            "result": summary.get("result"),  # เพิ่มใหม่
+            "target": summary.get("target"),  # เพิ่มใหม่
+            "target_category": summary.get("target_category"),  # เพิ่มใหม่
+            "guesses": summary.get("guesses", []),  # เพิ่มใหม่
+            "duration_sec": summary.get("duration_sec", 0),  # เพิ่มใหม่
+            "hints_used": summary.get("hints_used", 0),  # เพิ่มใหม่
+        }
+
+    else:
+        return {
+            "status": "ok",
+            "score": float(score),
+            "is_win": False,
+            "rank": rank,
+            "message": _get_feedback_message(score, False),
+            "guess_count": len(game_state['guesses'])
+        }
 
 #ฟังก์ชั่นให้คำใบ้
 def get_hint():
@@ -273,13 +297,41 @@ def give_up():
     level = game_state.get('level', 'easy')
     category = get_category(level, target) if target else 'unknown'
 
-    summary = end_round("giveup")
+    summary = end_round("give_up")
 
     summary.update({
         "status": "give_up",
         "target": target,
         "category": category,
         "message": f"คำตอบคือ '{target}' (หมวด: {category})",
+        "guess_count": len(game_state.get('guesses', []))
+    })
+
+    return summary
+
+def handle_timeout():
+    logger.info("[TIMEOUT]")
+    if not game_state.get('is_active', False):
+        return {
+            "status": "error",
+            "message": "เกมไม่ได้เปิดอยู่",
+            "target": None,
+            "category": None,
+            "score": None,
+            "is_win": False,
+            "rank": None,
+            "guess_count": 0
+        }
+    target = game_state.get('target', '')
+    level = game_state.get('level', 'easy')
+    category = get_category(level, target) if target else 'unknown'
+
+    summary = end_round("timeout")  # ส่ง "timeout" แทน "give_up"
+    summary.update({
+        "status": "timeout",
+        "target": target,
+        "category": category,
+        "message": f"หมดเวลา! คำตอบคือ '{target}' (หมวด: {category})",
         "guess_count": len(game_state.get('guesses', []))
     })
 

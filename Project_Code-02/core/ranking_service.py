@@ -1,6 +1,6 @@
 import logging
 from typing import List, Tuple, Optional
-from core.embedding_service import similarities_batch
+from core.embedding_service import adjusted_similarities_batch
 
 logger = logging.getLogger(__name__)
 
@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 def rank_words(level, target, all_words , top_n = None):
 
     # คำนวณ similarity ของ target กับทุกคำใน all_words
-    sims = similarities_batch(level, target, all_words)
+    sims = adjusted_similarities_batch (level, target, all_words)
 
     # จัดเรียงจากมากไปน้อย
     ranked = sorted(sims.items(), key=lambda x: x[1], reverse=True)
