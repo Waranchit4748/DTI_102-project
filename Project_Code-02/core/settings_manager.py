@@ -7,128 +7,137 @@ CONFIG_FILE = Path("config/config.json")
 
 # ค่าเริ่มต้น config
 DEFAULT_CONFIG = {
-    "theme": "dark",
-    "sound_enabled": True,
-    "volume": 0.7,
-    "current_level": "easy",
-    "timer_duration": 180,
-    "show_hints": True,
-    "language": "th",
-    "background_music": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
+    "theme": "dark", #ธีม UI ค่าเริ่มต้น
+    "sound_enabled": True, #เปิด/ปิดเสียง
+    "volume": 0.7, #ระดับเสียงเริ่มต้น
+    "current_level": "easy", #ระดับความยากปัจจุบัน
+    "timer_duration": 180, #ระยะเวลา (วินาที)
+    "show_hints": True, #แสดงคำใบ้
+    "language": "th", #ภาษา
+    "background_music": "data/Scott Holmes Music - Acoustic Indie Folk.mp3"
 }
 
 # สร้างไฟล์ config ถ้าไม่มี
 def _ensure_config_file():
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    if not CONFIG_FILE.exists():
-        save_config(DEFAULT_CONFIG.copy())
+    #สร้างไดเรกทอรี            สร้างหลายระดับ ไม่โยน error ถ้ามีแล้ว
+    if not CONFIG_FILE.exists(): #ถ้าไฟล์ config ยังไม่มี
+        save_config(DEFAULT_CONFIG.copy()) #เรียก save_config เพื่อสร้างไฟล์จากสำเนา DEFAULT_CONFIG
 
-# โหลดไฟล์ config 
+# โหลดไฟล์ config
 def load_config(config_file=CONFIG_FILE):
-    if not config_file.exists():
+    if not config_file.exists(): #ถ้าไฟล์ไม่มี ให้เขียนไฟล์ใหม่ด้วยค่า default
         save_config(DEFAULT_CONFIG.copy(), config_file)
     try:
-        with open(config_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        cfg = copy.deepcopy(DEFAULT_CONFIG)
-        cfg.update(data)
-        return cfg
+        with open(config_file, "r", encoding="utf-8") as f: #เปิดไฟล์ config ในโหมดอ่านด้วย
+            data = json.load(f) #โหลด JSON เป็น Python dict
+        cfg = copy.deepcopy(DEFAULT_CONFIG) #สร้างสำเนาลึกของค่า default (เพื่อไม่ให้เปลี่ยน DEFAULT_CONFIG ได้)
+        cfg.update(data) #อัปเดตค่า default ด้วยค่าที่อ่านได้จากไฟล์
+        return cfg #คืนค่า config
     except:
-        save_config(DEFAULT_CONFIG.copy(), config_file)
-        return copy.deepcopy(DEFAULT_CONFIG)
+        save_config(DEFAULT_CONFIG.copy(), config_file) #เขียนไฟล์ default ทับ (reset)
+        return copy.deepcopy(DEFAULT_CONFIG) #คืนสำเนา default
 
 # บันทึกไฟล์ config
-def save_config(cfg_dict, config_file=CONFIG_FILE):
-    config_file.parent.mkdir(parents=True, exist_ok=True)
-    temp_file = config_file.with_suffix(".tmp")
-    with open(temp_file, "w", encoding="utf-8") as f:
+def save_config(cfg_dict, config_file=CONFIG_FILE): #ฟังก์ชันเขียน dict เป็นไฟล์ JSON
+    config_file.parent.mkdir(parents=True, exist_ok=True) #สร้างโฟลเดอร์ถ้ายังไม่มี
+    temp_file = config_file.with_suffix(".tmp") #สร้าง path ชั่วคราวโดยเปลี่ยนนามสกุลเป็น .tmp เช่น config/config.json.tmp
+    with open(temp_file, "w", encoding="utf-8") as f: #เขียน JSON ลงไฟล์ชั่วคราว
         json.dump(cfg_dict, f, ensure_ascii=False, indent=2)
-    temp_file.replace(config_file)
-    return True
+    temp_file.replace(config_file) #แทนที่ไฟล์config_fileด้วยไฟล์temp_file
+    return True #คืนค่า True เมื่อเสร็จ
 
 # อ่านค่าการตั้งค่า
 def get_setting(key, default=None):
-    cfg = load_config()
-    return cfg.get(key, default)
+    cfg = load_config() #โหลด config (เรียก load_config() เสมอ)
+    return cfg.get(key, default) #คืนค่า cfg.get(key, default)
 
 # เปลี่ยนค่าการตั้งค่า
 def set_setting(key, value):
-    cfg = load_config()
-    cfg[key] = value
-    save_config(cfg)
-    return True
+    cfg = load_config() #โหลด config ปัจจุบัน
+    cfg[key] = value #ตั้งค่า key เป็น value
+    save_config(cfg) #บันทึกกลับลงไฟล์ด้วย save_config
+    return True #คืน True เมื่อเสร็จ
 
 # รีเซ็ตค่า config เป็นค่าเริ่มต้น
 def reset_config():
-    save_config(copy.deepcopy(DEFAULT_CONFIG))
+    save_config(copy.deepcopy(DEFAULT_CONFIG)) #คัดลอกไฟล์ DEFAULT_CONFIG ทับไฟล์ config เพื่อย้อนกลับสู่ค่าเริ่มต้น
     return True
 
 # ฟังก์ชันเปลี่ยนการตั้งค่าและกำหนดค่่าธีม
 def get_theme():
-    return get_setting("theme", "dark")
+    return get_setting("theme", "dark") #คืนค่า theme ปัจจุบันจาก config หากไม่มีจะคืน "dark" เป็น default
 
-def set_theme(theme):
-    if theme not in ["dark", "light"]:
+def set_theme(theme): 
+    if theme not in ["dark", "light"]: #theme รับค่าเฉพาะ "dark" หรือ "light" เท่านั้น
         print("Theme ต้องเป็น dark หรือ light")
-        return False
-    return set_setting("theme", theme)
+        return False #ถ้าไม่ถูกต้องพิมพ์ข้อความและคืน False
+    return set_setting("theme", theme) #ถ้าถูกต้องเรียก set_setting เพื่อบันทึกและคืนค่า True
 
 # ฟังก์ชันเปลี่ยนการตั้งค่าและกำหนดค่่าเสียง
 def get_volume():
     return get_setting("volume", 0.7)
 
 def set_volume(vol):
-    vol = max(0.0, min(1.0, float(vol)))
-    return set_setting("volume", vol)
+    vol = max(0.0, min(1.0, float(vol))) #แปลง vol เป็น float แล้วให้ 0.0เป็นmin 1.0เป็นmax
+    return set_setting("volume", vol) #บันทึกค่าใหม่ด้วย set_setting
 
 # ฟังก์ชันเปลี่ยนการตั้งค่าและกำหนดค่่าเพลง
 def is_sound_enabled():
-    return get_setting("sound_enabled", True)
+    return get_setting("sound_enabled", True) #คืนค่า boolean ว่าเปิด/ปิดเสียง (default True)
 
 # คืนค่า URL เพลงประกอบ
 def get_music_url():
-    return get_setting("background_music")
+    return get_setting("background_music") #คืนค่า path/URL ของเพลงประกอบจาก config
 
 # เปลี่ยนเพลงประกอบ
 def set_music_url(url):
-    return set_setting("background_music", url)
+    return set_setting("background_music", url) #เปลี่ยนค่า background_music ใน config เป็น url
 
 # สลับเปิด/ปิดเสียง
 def toggle_sound():
-    current = is_sound_enabled()
+    current = is_sound_enabled() #สลับสถานะ sound_enabled แล้วบันทึก
     return set_setting("sound_enabled", not current)
 
 # เล่นเพลงจาก URL ด้วย VLC
 _music_player = None # เก็บ instance ของ vlc.MediaPlayer
-
+#Global variable ชื่อ _music_player เริ่มต้นเป็น None — เมื่อเล่นเพลงจะเก็บ instance ของ vlc.MediaPlayer ไว้ที่นี่เพื่อให้สามารถหยุด/ปล่อย resource ได้ภายหลัง
 def play_music():
-    global _music_player
-    if not is_sound_enabled():
+    global _music_player #ระบุว่าเราจะใช้ตัวแปร global _music_player ภายในฟังก์ชัน
+    if not is_sound_enabled(): 
         print("เสียงปิดอยู่ ไม่เล่นเพลง")
-        return
-    url = get_music_url()
+        return #ถ้าเสียงปิด ให้พิมพ์ข้อความและ return ออกจากฟังก์ชัน
+    url = get_music_url() #อ่านค่าเพลงจาก config
     try:
-        _music_player = vlc.MediaPlayer(url) # สร้าง player
-        _music_player.audio_set_volume(int(get_volume() * 100)) # VLC ใช้ 0-100
-        result = _music_player.play()
+        _music_player = vlc.MediaPlayer(url) #สร้าง MediaPlayer ด้วย source เป็น url
+        _music_player.audio_set_volume(int(get_volume() * 100)) #ตั้งระดับเสียงของ VLC ที่ 0–100 โดยคูณค่าที่เก็บใน config (0.0–1.0) ด้วย 100 แล้วแปลงเป็น int
+        result = _music_player.play() #เริ่มเล่น
         if result == -1: # -1 หมายถึง VLC เล่นไม่ได้
             print("ไม่สามารถเล่นเพลงได้: ตรวจสอบ URL หรือ VLC ติดตั้งอยู่หรือไม่")
         else:
             print(f"🎵 เล่นเพลงจาก URL: {url}")
-    except Exception as e:
+    except Exception as e: #ถ้ามี exception ใด ๆ
         print("ไม่สามารถเล่นเพลงได้:", e)
 
 # หยุดเพลงและคืน resource ของ player
 def stop_music():
     global _music_player
     if _music_player:
-        _music_player.stop()
-        _music_player.release()
-        _music_player = None
+        _music_player.stop() #หยุดการเล่น
+        _music_player.release() #ปล่อย resource ของ player
+        _music_player = None #ตั้งเป็น None เพื่อให้ state กลับเป็นไม่มี player
 
+# เริ่มต้นเพลงเมื่อโปรแกรมเริ่มทำงาน
+def initialize_music():
+    if is_sound_enabled():
+        play_music()
+        print("🎵 เริ่มต้นเพลงประกอบ")
+    else:
+        print("🔇 เสียงปิดอยู่ ไม่เล่นเพลง")
+        
 if __name__ == "__main__":
-    reset_config()
-    print(f"✅ Config file ready at: {CONFIG_FILE.resolve()}")
-    play_music()
-    input("กด Enter เพื่อหยุดเพลงและออก...")
-    stop_music()
+    reset_config() #รีเซ็ตไฟล์ config เป็นค่า default
+    print(f"✅ Config file ready at: {CONFIG_FILE.resolve()}") #พิมพ์ path เต็มของไฟล์ config ที่สร้าง/อยู่
+    play_music() #เรียกฟังก์ชันเล่นเพลงตามค่า config
+    input("กด Enter เพื่อหยุดเพลงและออก...") 
+    stop_music() #หยุดเพลงและคืน resource ก่อนโปรแกรมออก
