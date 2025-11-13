@@ -7,6 +7,7 @@ from gui.main_window import create_game_ui
 from gui.tutorial_window import create_tutorial_ui
 from gui.settings_window import create_settings_ui
 from gui.achievement_window import create_achievements_ui
+from core.settings_manager import  initialize_music
  
  
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
