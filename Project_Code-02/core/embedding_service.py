@@ -4,7 +4,6 @@ import os
 import pickle
 import numpy as np # สำหรับการเก็บและคำนวณเวกเตอร์ embedding
 import logging # แสดง log ข้อมูล, warning, error ใน console
-from typing import Dict
 from sklearn.metrics.pairwise import cosine_similarity # คำนวณ cosine similarity ระหว่างเวกเตอร์
 from pathlib import Path # จัดการ path ของไฟล์ให้ทำงานได้ทั้ง Windows / Mac
 
@@ -29,7 +28,7 @@ batch_cache = {}
 cache_hits = 0
 cache_misses = 0
 # template สำหรับแต่ละ category (เป้น dict จาก precompute_embeddings.py )
-CATEGORY_TEMPLATES: Dict[str, str] = {}
+CATEGORY_TEMPLATES = {}
 
 
 # Load and Validate Embeddings
