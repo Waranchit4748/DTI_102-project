@@ -94,39 +94,38 @@ def create_game_ui(root, stack):
 
     # ================= Helper Functions =================
     # ประมวลผล UI updates จาก queue (เรียกจาก main thread)
-    def process_ui_queue(): # Code จากปัญญาประดิษฐ์
-        try: # Code จากปัญญาประดิษฐ์
-            while not state['ui_queue'].empty(): # Code จากปัญญาประดิษฐ์
-                action, data = state['ui_queue'].get_nowait() # Code จากปัญญาประดิษฐ์
+    # Code จากปัญญาประดิษฐ์
+    def process_ui_queue(): 
+        try: 
+            while not state['ui_queue'].empty(): 
+                action, data = state['ui_queue'].get_nowait() 
                 
-                if action == "update_timer": # Code จากปัญญาประดิษฐ์
-                    try: # Code จากปัญญาประดิษฐ์
-                        timer_label.configure(text=data['text']) # Code จากปัญญาประดิษฐ์
-                        timer_progress.configure(progress_color=data['color']) # Code จากปัญญาประดิษฐ์
-                        timer_progress.set(data['progress']) # Code จากปัญญาประดิษฐ์
-                    except: # Code จากปัญญาประดิษฐ์
+                if action == "update_timer": 
+                    try: 
+                        timer_label.configure(text=data['text'])
+                        timer_progress.configure(progress_color=data['color']) 
+                        timer_progress.set(data['progress']) 
+                    except: 
                         # Widget ถูก destroy แล้ว
-                        pass # Code จากปัญญาประดิษฐ์
+                        pass 
                     
-                elif action == "timeout": # Code จากปัญญาประดิษฐ์
+                elif action == "timeout": 
                     # ไปหน้า summary ทันทีเมื่อหมดเวลา
-                    # Code จากปัญญาประดิษฐ์
-                    show_summary(data['result']) # Code จากปัญญาประดิษฐ์
+                    show_summary(data['result']) 
                     return  # หยุดการ process ต่อ
-                    # Code จากปัญญาประดิษฐ์
                     
-                elif action == "auto_hint": # Code จากปัญญาประดิษฐ์
-                    try: # Code จากปัญญาประดิษฐ์
-                        feedback_label.configure( # Code จากปัญญาประดิษฐ์
-                            text=f"คำใบ้อัตโนมัติ: {data['hint']}", # Code จากปัญญาประดิษฐ์
-                            text_color="blue" # Code จากปัญญาประดิษฐ์
+                elif action == "auto_hint": 
+                    try: 
+                        feedback_label.configure( 
+                            text=f"คำใบ้อัตโนมัติ: {data['hint']}", 
+                            text_color="blue" 
                         )
-                        hint_counter_label.configure(text=f"คำใบ้: {data['hints_used']}/3") # Code จากปัญญาประดิษฐ์
-                    except: # Code จากปัญญาประดิษฐ์
-                        pass # Code จากปัญญาประดิษฐ์
+                        hint_counter_label.configure(text=f"คำใบ้: {data['hints_used']}/3") 
+                    except: 
+                        pass 
                     
-        except Exception as e: # Code จากปัญญาประดิษฐ์
-            logger.error(f"Error processing UI queue: {e}") # Code จากปัญญาประดิษฐ์
+        except Exception as e: 
+            logger.error(f"Error processing UI queue: {e}") 
         
         # เรียกตัวเองอีกครั้งหลัง 100ms
         with state['lock']:
@@ -171,31 +170,32 @@ def create_game_ui(root, stack):
 
     # ================= Timer Functions =================
     # เริ่มจับเวลา
-    def start_timer(duration=180): # Code จากปัญญาประดิษฐ์
-        with state['lock']: # Code จากปัญญาประดิษฐ์
-            state['timer_running'] = True # Code จากปัญญาประดิษฐ์
+    # Code จากปัญญาประดิษฐ์
+    def start_timer(duration=180): 
+        with state['lock']: 
+            state['timer_running'] = True 
         
-        def countdown(): # Code จากปัญญาประดิษฐ์
-            remaining = duration # Code จากปัญญาประดิษฐ์
-            while remaining >= 0: # Code จากปัญญาประดิษฐ์
-                with state['lock']: # Code จากปัญญาประดิษฐ์
-                    if not state['timer_running']: # Code จากปัญญาประดิษฐ์
-                        break # Code จากปัญญาประดิษฐ์
+        def countdown(): 
+            remaining = duration 
+            while remaining >= 0: 
+                with state['lock']: 
+                    if not state['timer_running']: 
+                        break 
                 
                 # คำนวณ progress และสี
-                progress = remaining / duration # Code จากปัญญาประดิษฐ์
-                if progress >= 0.7: # Code จากปัญญาประดิษฐ์
-                    color = "green" # Code จากปัญญาประดิษฐ์
-                elif progress >= 0.4: # Code จากปัญญาประดิษฐ์
-                    color = "orange" # Code จากปัญญาประดิษฐ์
-                else: # Code จากปัญญาประดิษฐ์
-                    color = "red" # Code จากปัญญาประดิษฐ์
+                progress = remaining / duration 
+                if progress >= 0.7: 
+                    color = "green" 
+                elif progress >= 0.4: 
+                    color = "orange" 
+                else: 
+                    color = "red" 
                 
                 # ส่งข้อมูลไปยัง UI queue
-                state['ui_queue'].put(("update_timer", { # Code จากปัญญาประดิษฐ์
-                    'text': f"เวลา: {format_time(remaining)}", # Code จากปัญญาประดิษฐ์
-                    'progress': progress, # Code จากปัญญาประดิษฐ์
-                    'color': color # Code จากปัญญาประดิษฐ์
+                state['ui_queue'].put(("update_timer", { 
+                    'text': f"เวลา: {format_time(remaining)}", 
+                    'progress': progress, 
+                    'color': color 
                 }))
                 
                 if remaining == 0:
@@ -416,7 +416,7 @@ def create_game_ui(root, stack):
         hint_counter_label.configure(text=f"คำใบ้: {hints_used}/3")
         
         if status == "ok":
-            feedback_label.configure(text=f"💡 {result.get('hint', '')}", text_color="blue")
+            feedback_label.configure(text=f"{result.get('hint', '')}", text_color="blue")
         elif status == "limit_reached":
             feedback_label.configure(text=result.get('message', 'คำใบ้หมดแล้ว!'), text_color="red")
         else:
