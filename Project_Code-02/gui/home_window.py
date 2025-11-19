@@ -1,13 +1,13 @@
 import logging
 import customtkinter as ctk
 from gui.components import create_button, create_label, show
-from typing import Dict
+
  
 # สร้างตัว logger สำหรับเก็บ log ของไฟล์นี้ (เช่น ใช้ดูว่าเริ่มเกมระดับใด)
 logger = logging.getLogger(__name__)
  
 # หน้าหลัก (Home Screen)
-def create_home_ui(root: ctk.CTk, stack: Dict):
+def create_home_ui(root, stack):
     # สร้างเฟรมหลักของหน้า Home (พื้นหลังสีขาว)
     frame = ctk.CTkFrame(root, fg_color="white")
     frame.grid_rowconfigure(0, weight=1)
@@ -65,7 +65,7 @@ def create_home_ui(root: ctk.CTk, stack: Dict):
     return frame
  
 # หน้าเลือกระดับความยาก (Play Screen)
-def create_play_ui(root: ctk.CTk, stack: Dict):
+def create_play_ui(root, stack):
     # เฟรมหลักของหน้า Play
     frame = ctk.CTkFrame(root, fg_color="white")
     frame.grid_rowconfigure(0, weight=0)
@@ -75,7 +75,7 @@ def create_play_ui(root: ctk.CTk, stack: Dict):
     # แถบด้านบนที่มีปุ่มย้อนกลับไปหน้า Home
     top_bar = ctk.CTkFrame(frame, fg_color="white")
     top_bar.grid(row=0, column=0, sticky="ew")
-    create_button(top_bar, text="ย้อนกลับ", text_color="white", fg_color="#3B8ED0",
+    create_button(top_bar, text="กลับหน้าหลัก", text_color="white", fg_color="#3B8ED0",
                   command=lambda: show(stack, "Home"), width=120).pack(side="left", padx=10, pady=8)
  
     # พื้นที่ตรงกลางของหน้า
