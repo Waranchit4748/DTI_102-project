@@ -75,7 +75,7 @@ def create_play_ui(root: ctk.CTk, stack: Dict):
     # แถบด้านบนที่มีปุ่มย้อนกลับไปหน้า Home
     top_bar = ctk.CTkFrame(frame, fg_color="white")
     top_bar.grid(row=0, column=0, sticky="ew")
-    create_button(top_bar, text="ย้อนกลับ", text_color="white", fg_color="#3B8ED0",
+    create_button(top_bar, text="กลับหน้าหลัก", text_color="white", fg_color="#3B8ED0",
                   command=lambda: show(stack, "Home"), width=120).pack(side="left", padx=10, pady=8)
  
     # พื้นที่ตรงกลางของหน้า

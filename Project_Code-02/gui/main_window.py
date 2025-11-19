@@ -8,6 +8,7 @@ from queue import Queue
 from core.game_manager import check_guess, get_hint, give_up, get_game_state, handle_timeout
 from gui.components import show
 
+# สร้างตัว logger สำหรับเก็บ log ของไฟล์นี้ (เช่น ใช้ดูว่าเริ่มเกมระดับใด)
 logger = logging.getLogger(__name__)
 
 # สร้าง UI หลักของเกม พร้อมเชื่อมต่อกับ game_manager
@@ -355,7 +356,7 @@ def create_game_ui(root, stack):
                 item['widget'].pack(fill="x", pady=3, padx=10)
 
     # ================= Game Actions =================
-    # ส่งคำตอบ"
+    # ส่งคำตอบ
     def submit_guess():
         text = entry.get().strip()
         entry.delete(0, 'end')
