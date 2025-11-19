@@ -5,10 +5,8 @@ from gui.components import init_stack, register, show
 from gui.home_window import create_home_ui, create_play_ui
 from gui.main_window import create_game_ui
 from gui.tutorial_window import create_tutorial_ui
-from gui.settings_window import create_settings_ui
 from gui.achievement_window import create_achievements_ui
 from core.settings_manager import  initialize_music
-from gui.summary_window import create_summary_ui
  
  
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
@@ -43,9 +41,7 @@ def register_frames(root, stack):
         "Home": create_home_ui(root, stack),   # หน้าหลักของเกม
         "Play": create_play_ui(root, stack),   # หน้าเลือกระดับความยาก
         "tutorial": create_tutorial_ui(root, stack),  #หน้าคุ่มือ
-        "settings": create_settings_ui(root, stack),  #หน้าตั้งค่า
         "achievement": create_achievements_ui(root, stack),  #หน้าความสำเร็จ
-        "Summary": create_summary_ui(root, stack),
         "Main": create_game_ui(root, stack)    # หน้าเล่นเกม
     }
    
@@ -58,12 +54,13 @@ def register_frames(root, stack):
     return stack
 
 # ลบไฟล์ชั่วคราวเมื่อปิดเกม
-def cleanup_on_exit():
-    for file in ["history.json", "achievements.json"]:
-        if os.path.exists(file):
+# Code จากปัญญาประดิษฐ์
+def cleanup_on_exit(): 
+    for file in ["history.json", "achievements.json"]: 
+        if os.path.exists(file): 
             try:
-                os.remove(file)
-                logging.info(f"Deleted {file}")
+                os.remove(file) 
+                logging.info(f"Deleted {file}") 
             except Exception as e:
                 logging.error(f"Failed to delete {file}: {e}")
         else:
