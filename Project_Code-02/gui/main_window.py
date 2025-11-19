@@ -3,42 +3,42 @@ import threading
 import time
 import logging
 from queue import Queue
-
+ 
 # นำเข้า game_manager แทนการใช้ mock data
 from core.game_manager import check_guess, get_hint, give_up, get_game_state, handle_timeout
 from gui.components import show
-
+ 
 # สร้างตัว logger สำหรับเก็บ log ของไฟล์นี้ (เช่น ใช้ดูว่าเริ่มเกมระดับใด)
 logger = logging.getLogger(__name__)
-
+ 
 # สร้าง UI หลักของเกม พร้อมเชื่อมต่อกับ game_manager
 def create_game_ui(root, stack):
     frame = ctk.CTkFrame(root, fg_color="white")
     frame.grid_rowconfigure(0, weight=1)
     frame.grid_columnconfigure(0, weight=1)
-
+ 
     # เฟรมด้านใน (container)
     container = ctk.CTkFrame(frame, fg_color="white")
     container.grid(row=0, column=0, sticky="nsew", padx=20, pady=20)
     container.grid_columnconfigure(0, weight=1)
-
+ 
     # ตัวจับเวลา (แสดงตัวเลขนับถอยหลัง)
     timer_label = ctk.CTkLabel(container, text="เวลา: 03:00", font=("Sarabun", 24, "bold"))
     timer_label.pack(pady=(10, 5))
-
+ 
     # แถบแสดงเวลาที่เหลือ (progress bar)
     timer_progress = ctk.CTkProgressBar(container, fg_color="white")
     timer_progress.set(1.0)
     timer_progress.pack(fill="x", padx=40, pady=(0, 10))
-
+ 
     # กล่องกรอกคำตอบ
     input_frame = ctk.CTkFrame(container, fg_color="white")
     input_frame.pack(pady=(5, 10))
-
+ 
     # ช่องพิมพ์คำตอบ
     entry = ctk.CTkEntry(input_frame, width=350, placeholder_text="พิมพ์คำตอบที่นี่", font=("Sarabun", 16))
     entry.grid(row=0, column=0, padx=5)
-
+ 
     # ปุ่มส่งคำตอบ
     submit_btn = ctk.CTkButton(
         input_frame, text="ส่งคำตอบ", width=120,
@@ -46,41 +46,41 @@ def create_game_ui(root, stack):
         border_width=0, font=("Sarabun", 16)
     )
     submit_btn.grid(row=0, column=1, padx=5)
-
+ 
     # ปุ่มคำใบ้ / ยอมแพ้
     button_frame = ctk.CTkFrame(container, fg_color="white")
     button_frame.pack(pady=(5, 10))
-
+ 
     hint_btn = ctk.CTkButton(
         button_frame, text="คำใบ้", width=220,
         text_color="black", fg_color="yellow", hover_color="yellow",
         border_width=0, font=("Sarabun", 16)
     )
     hint_btn.grid(row=0, column=0, padx=5)
-
+ 
     give_up_btn = ctk.CTkButton(
         button_frame, text="ยอมแพ้", width=220,
         text_color="white", fg_color="red", hover_color="red",
         border_width=0, font=("Sarabun", 16)
     )
     give_up_btn.grid(row=0, column=1, padx=5)
-
+ 
     # คำใบ้ / ข้อความตอบกลับ
     feedback_label = ctk.CTkLabel(container, text="", font=("Sarabun", 18))
     feedback_label.pack(pady=(5, 10))
-
+ 
     # ตัวนับจำนวนคำใบ้
     hint_counter_label = ctk.CTkLabel(container, text="คำใบ้: 0/3", font=("Sarabun", 18))
     hint_counter_label.pack()
-
+ 
     # หัวข้อประวัติการทาย
     history_label = ctk.CTkLabel(container, text="ประวัติการทายคำของคุณ", font=("Sarabun", 18, "bold"))
     history_label.pack(pady=(10, 5))
-
+ 
     # พื้นที่แสดงประวัติ (เลื่อนดูได้)
     ranking_frame = ctk.CTkScrollableFrame(container, width=500, height=250, fg_color="white")
     ranking_frame.pack(pady=(5, 10))
-
+ 
     # ================= State Variables =================
     state = {
         'timer_running': False,
@@ -91,41 +91,41 @@ def create_game_ui(root, stack):
         'timer_thread': None,
         'auto_hint_thread': None
     }
-
+ 
     # ================= Helper Functions =================
     # ประมวลผล UI updates จาก queue (เรียกจาก main thread)
     # Code จากปัญญาประดิษฐ์
-    def process_ui_queue(): 
-        try: 
-            while not state['ui_queue'].empty(): 
-                action, data = state['ui_queue'].get_nowait() 
+    def process_ui_queue():
+        try:
+            while not state['ui_queue'].empty():
+                action, data = state['ui_queue'].get_nowait()
                 
-                if action == "update_timer": 
-                    try: 
+                if action == "update_timer":
+                    try:
                         timer_label.configure(text=data['text'])
-                        timer_progress.configure(progress_color=data['color']) 
-                        timer_progress.set(data['progress']) 
-                    except: 
+                        timer_progress.configure(progress_color=data['color'])
+                        timer_progress.set(data['progress'])
+                    except:
                         # Widget ถูก destroy แล้ว
-                        pass 
+                        pass
                     
-                elif action == "timeout": 
+                elif action == "timeout":
                     # ไปหน้า summary ทันทีเมื่อหมดเวลา
-                    show_summary(data['result']) 
+                    show_summary(data['result'])
                     return  # หยุดการ process ต่อ
                     
-                elif action == "auto_hint": 
-                    try: 
-                        feedback_label.configure( 
-                            text=f"คำใบ้อัตโนมัติ: {data['hint']}", 
-                            text_color="blue" 
+                elif action == "auto_hint":
+                    try:
+                        feedback_label.configure(
+                            text=f"คำใบ้อัตโนมัติ: {data['hint']}",
+                            text_color="blue"
                         )
-                        hint_counter_label.configure(text=f"คำใบ้: {data['hints_used']}/3") 
-                    except: 
-                        pass 
+                        hint_counter_label.configure(text=f"คำใบ้: {data['hints_used']}/3")
+                    except:
+                        pass
                     
-        except Exception as e: 
-            logger.error(f"Error processing UI queue: {e}") 
+        except Exception as e:
+            logger.error(f"Error processing UI queue: {e}")
         
         # เรียกตัวเองอีกครั้งหลัง 100ms
         with state['lock']:
@@ -133,12 +133,12 @@ def create_game_ui(root, stack):
         
         if timer_running and frame.winfo_exists():
             root.after(100, process_ui_queue)
-
+ 
     # แปลงวินาทีเป็นรูปแบบ mm:ss
     def format_time(seconds):
         mins, secs = divmod(seconds, 60)
         return f"{mins:02d}:{secs:02d}"
-
+ 
     # แสดงหน้าสรุปผลพร้อมข้อมูล
     def show_summary(result_data):
         # หยุด threads ก่อนเปลี่ยนหน้า
@@ -167,35 +167,35 @@ def create_game_ui(root, stack):
         # รอให้ threads หยุดจริงๆ
         if state['timer_thread'] and state['timer_thread'].is_alive():
             state['timer_thread'].join(timeout=0.1)
-
+ 
     # ================= Timer Functions =================
     # เริ่มจับเวลา
     # Code จากปัญญาประดิษฐ์
-    def start_timer(duration=180): 
-        with state['lock']: 
-            state['timer_running'] = True 
+    def start_timer(duration=180):
+        with state['lock']:
+            state['timer_running'] = True
         
-        def countdown(): 
-            remaining = duration 
-            while remaining >= 0: 
-                with state['lock']: 
-                    if not state['timer_running']: 
-                        break 
+        def countdown():
+            remaining = duration
+            while remaining >= 0:
+                with state['lock']:
+                    if not state['timer_running']:
+                        break
                 
                 # คำนวณ progress และสี
-                progress = remaining / duration 
-                if progress >= 0.7: 
-                    color = "green" 
-                elif progress >= 0.4: 
-                    color = "orange" 
-                else: 
-                    color = "red" 
+                progress = remaining / duration
+                if progress >= 0.7:
+                    color = "green"
+                elif progress >= 0.4:
+                    color = "orange"
+                else:
+                    color = "red"
                 
                 # ส่งข้อมูลไปยัง UI queue
-                state['ui_queue'].put(("update_timer", { 
-                    'text': f"เวลา: {format_time(remaining)}", 
-                    'progress': progress, 
-                    'color': color 
+                state['ui_queue'].put(("update_timer", {
+                    'text': f"เวลา: {format_time(remaining)}",
+                    'progress': progress,
+                    'color': color
                 }))
                 
                 if remaining == 0:
@@ -207,14 +207,14 @@ def create_game_ui(root, stack):
                     break
                     
                 time.sleep(1)
-                remaining -= 1 
+                remaining -= 1
         
         state['timer_thread'] = threading.Thread(target=countdown, daemon=True)
         state['timer_thread'].start()
         
         # เริ่ม process UI queue
         root.after(100, process_ui_queue)
-
+ 
     # หยุดจับเวลา
     def stop_timer():
         with state['lock']:
@@ -223,10 +223,10 @@ def create_game_ui(root, stack):
         # รอให้ thread หยุดอย่างรวดเร็ว (timeout สั้น)
         if state['timer_thread'] and state['timer_thread'].is_alive():
             state['timer_thread'].join(timeout=0.1)
-
+ 
     # ================= Auto Hint Functions =================
     # เริ่มระบบ auto hint
-    def start_auto_hint(): 
+    def start_auto_hint():
         def check_idle():
             while True:
                 with state['lock']:
@@ -272,7 +272,7 @@ def create_game_ui(root, stack):
         
         state['auto_hint_thread'] = threading.Thread(target=check_idle, daemon=True)
         state['auto_hint_thread'].start()
-
+ 
     # ================= History Management =================
     # สร้าง widget แถวประวัติ
     def create_history_row(word, score, rank, idx):
@@ -281,11 +281,11 @@ def create_game_ui(root, stack):
         # ลำดับ
         idx_label = ctk.CTkLabel(row, text=f"{idx}.", width=30, anchor="w", text_color="black")
         idx_label.pack(side="left")
-
+ 
         # คำที่ทาย
         guess_label = ctk.CTkLabel(row, text=word, width=100, anchor="w", text_color="black")
         guess_label.pack(side="left")
-
+ 
         # แถบแสดงความคล้าย
         similarity_percent = score * 100
         
@@ -299,7 +299,7 @@ def create_game_ui(root, stack):
         else:
             bar.configure(progress_color="red")
         bar.pack(side="left", padx=10)
-
+ 
         # เปอร์เซ็นต์แสดงผล
         percent_label = ctk.CTkLabel(row, text=f"{similarity_percent:.1f}%", width=60)
         percent_label.pack(side="left")
@@ -310,7 +310,7 @@ def create_game_ui(root, stack):
             rank_label.pack(side="left")
         
         return row
-
+ 
     # แสดงประวัติการทายใหม่ (Optimized version)
     def refresh_history():
         # ดึงข้อมูลจาก game_manager
@@ -356,7 +356,7 @@ def create_game_ui(root, stack):
                                 break
                 
                 item['widget'].pack(fill="x", pady=3, padx=10)
-
+ 
     # ================= Game Actions =================
     # ส่งคำตอบ
     def submit_guess():
@@ -393,7 +393,7 @@ def create_game_ui(root, stack):
                 score_percent = result.get('score', 0) * 100
                 rank = result.get('rank', '?')
                 feedback_label.configure(
-                    text=f"ความคล้าย: {score_percent:.1f}% (อันดับ #{rank}) - {result.get('message', '')}", 
+                    text=f"ความคล้าย: {score_percent:.1f}% (อันดับ #{rank}) - {result.get('message', '')}",
                     text_color="orange"
                 )
         elif status == "unknown_word":
@@ -405,7 +405,7 @@ def create_game_ui(root, stack):
             show_summary(result)
         else:
             feedback_label.configure(text=result.get('message', 'เกิดข้อผิดพลาด'), text_color="red")
-
+ 
     # คำใบ้
     def show_hint():
         result = get_hint()
@@ -421,61 +421,76 @@ def create_game_ui(root, stack):
             feedback_label.configure(text=result.get('message', 'คำใบ้หมดแล้ว!'), text_color="red")
         else:
             feedback_label.configure(text=result.get('message', 'ไม่สามารถให้คำใบ้ได้'), text_color="red")
-
+ 
     # ยอมแพ้
     def give_up_clicked():
         result = give_up()
         
         # ไปหน้า summary ทันทีโดยไม่แสดงเฉลยบนหน้าเกม
         show_summary(result)
-
+ 
     # รีเซ็ตเกม
     def reset_game(difficulty="easy"):
-        # หยุด threads เก่า
-        stop_timer()
-        
-        # รีเซ็ต state
+        logger.info(f"[RESET] Starting reset for difficulty: {difficulty}")
+       
+        # 1. หยุด threads ก่อน
+        with state['lock']:
+            state['timer_running'] = False
+       
+        if state['timer_thread'] and state['timer_thread'].is_alive():
+            state['timer_thread'].join(timeout=0.5)
+       
+        # 2. ล้าง UI queue
+        while not state['ui_queue'].empty():
+            try:
+                state['ui_queue'].get_nowait()
+            except:
+                break
+       
+        # 3. ล้างประวัติ UI 
+        for widget in ranking_frame.winfo_children():
+            widget.destroy()
+       
+        # 4. ล้าง state
+        state['history_items'].clear()
         with state['lock']:
             state['last_guess_time'] = None
-        
-        # ล้าง history items
-        state['history_items'].clear()
-        
-        # เริ่มเกมใหม่ใน game_manager
-        from core.game_manager import start_game as init_game
-        try:
-            game_info = init_game(difficulty)
-            logger.info(f"Game restarted: {game_info}")
-        except Exception as e:
-            logger.error(f"Failed to restart game: {e}")
-            feedback_label.configure(text="เกิดข้อผิดพลาดในการเริ่มเกม!", text_color="red")
-            return
-        
-        # รีเซ็ต UI
+       
+        # 5. รีเซ็ต UI elements
         entry.delete(0, 'end')
-        feedback_label.configure(text=f"พร้อมเล่น! ระดับ: {difficulty.upper()}", text_color="green")
+        feedback_label.configure(text="", text_color="black")
         hint_counter_label.configure(text="คำใบ้: 0/3")
         timer_label.configure(text="เวลา: 03:00")
         timer_progress.set(1.0)
         timer_progress.configure(progress_color="green")
-        
-        # ล้างประวัติ UI
-        for widget in ranking_frame.winfo_children():
-            widget.destroy()
-        
-        # เริ่ม timer และ auto hint ใหม่
+       
+        # 6. บังคับ render
+        frame.update_idletasks()
+       
+        # 7. เริ่มเกมใหม่
+        from core.game_manager import start_game as init_game
+        try:
+            game_info = init_game(difficulty)
+            logger.info(f"[RESET] Game initialized: {game_info}")
+            feedback_label.configure(text=f"พร้อมเล่น! ระดับ: {difficulty.upper()}", text_color="green")
+        except Exception as e:
+            logger.error(f"[RESET] Failed to start game: {e}", exc_info=True)
+            feedback_label.configure(text="เกิดข้อผิดพลาด!", text_color="red")
+            return
+       
+        # 8. เริ่ม timer และ auto hint
         start_timer()
         start_auto_hint()
-        
-        logger.info(f"Game UI reset for difficulty: {difficulty}")
-
+       
+        logger.info(f"[RESET] Complete!")
+ 
     # ================= Bind Events =================
     
     submit_btn.configure(command=submit_guess)
     hint_btn.configure(command=show_hint)
     give_up_btn.configure(command=give_up_clicked)
     entry.bind('<Return>', lambda e: submit_guess())
-
+ 
     # เก็บ function reset ไว้ใน frame
     frame.reset_game = reset_game
     

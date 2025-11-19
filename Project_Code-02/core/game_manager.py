@@ -1,6 +1,5 @@
 import time
 import logging
-from typing import Dict, Any, List
 from core.embedding_service import similarity, has_word, get_top_similar, get_category, get_words_by_category, \
     adjusted_similarity
 from core.ranking_service import rank_words, get_rank_for_word
@@ -18,7 +17,7 @@ WIN_THRESHOLD = 1.00
 MAX_HINTS = 3
 TIME_LIMIT = 180  # seconds
 
-game_state: Dict[str, Any] = {
+game_state = {
     'level': None,
     'target': None,
     'start_ts': None,
