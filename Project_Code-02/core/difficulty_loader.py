@@ -115,15 +115,6 @@ def get_thresholds() :
     # ดึง thresholds จาก config ถ้าไม่มีให้ใช้ค่า default
     return config.get("thresholds", DEFAULT_CONFIG["thresholds"])
 
-def set_thresholds(thresholds):
-    """ตั้งค่า threshold ใหม่"""
-    
-    config = _load_config()
-    # อัปเดต thresholds
-    config["thresholds"] = thresholds
-    _save_config(config)
-    logger.info(f"[Config] Thresholds updated: {thresholds}")
-
 def adjust_difficulty(avg_guesses, current_level):
     """แนะนำระดับความยากตามจำนวนครั้งที่ทายเฉลี่ย"""
     
@@ -239,12 +230,6 @@ def analyze_and_suggest(recent_games) :
             "reason": "เกิดข้อผิดพลาดในการวิเคราะห์",
             "avg_guesses": None
         }
-
-def reset_config():
-    """รีเซ็ต configuration กลับเป็นค่า default"""
-    
-    _save_config(DEFAULT_CONFIG.copy())
-    logger.info(f"[Config] Reset to default")
     
 def auto_adjust_for_next_game(recent_games):
     """ปรับระดับความยากอัตโนมัติสำหรับเกมถัดไป"""

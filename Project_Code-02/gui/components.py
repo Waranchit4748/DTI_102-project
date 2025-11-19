@@ -1,6 +1,5 @@
 import logging
 import customtkinter as ctk
-from typing import Dict
 
 # สร้าง logger สำหรับจัดการข้อความ
 logger = logging.getLogger(__name__)
@@ -16,7 +15,7 @@ def create_button(parent, text, command, **kwargs):
     return ctk.CTkButton(parent, text=text, command=command, **default_kwargs)
 
 # สร้าง label ของข้อความ
-def create_label(parent, text: str, **kwargs):
+def create_label(parent, text, **kwargs):
     default_kwargs = {'font': ('Sarabun', 14), 'text_color': '#000000'}
     default_kwargs.update(kwargs)
     return ctk.CTkLabel(parent, text=text, **default_kwargs)

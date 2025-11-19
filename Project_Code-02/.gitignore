@@ -8,6 +8,8 @@ data/*.pkl
 data/*.npy
 data/*.npz
 data/*.json
+config/*.json
+config/*.*.json
 cache/
 tmp/
 *.cache
