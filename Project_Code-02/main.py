@@ -8,6 +8,7 @@ from gui.tutorial_window import create_tutorial_ui
 from gui.settings_window import create_settings_ui
 from gui.achievement_window import create_achievements_ui
 from core.settings_manager import  initialize_music
+from gui.summary_window import create_summary_ui
  
  
 # ตั้งค่าระบบ Logging สำหรับบันทึกข้อมูลการทำงานของโปรแกรม
@@ -44,6 +45,7 @@ def register_frames(root, stack):
         "tutorial": create_tutorial_ui(root, stack),  #หน้าคุ่มือ
         "settings": create_settings_ui(root, stack),  #หน้าตั้งค่า
         "achievement": create_achievements_ui(root, stack),  #หน้าความสำเร็จ
+        "Summary": create_summary_ui(root, stack),
         "Main": create_game_ui(root, stack)    # หน้าเล่นเกม
     }
    

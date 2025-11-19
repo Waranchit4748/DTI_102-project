@@ -8,7 +8,7 @@ def create_achievements_ui(root: ctk.CTk, stack: Dict):
     load_achievements()
 
     frame = ctk.CTkFrame(root, fg_color="#F8FAFC") 
-    frame.grid_rowconfigure(0, weight=0)
+    frame.grid_rowconfigure(0, weight=0) 
     frame.grid_rowconfigure(1, weight=1)
     frame.grid_columnconfigure(0, weight=1)
 
@@ -17,10 +17,10 @@ def create_achievements_ui(root: ctk.CTk, stack: Dict):
     top_bar.grid(row=0, column=0, sticky="ew", pady=(0, 2))
     create_button(
         top_bar,
-        text="← ย้อนกลับ",
+        text="กลับหน้าหลัก",
         text_color="white",
-        fg_color="#3B82F6",  # น้ำเงินสดใส
-        hover_color="#2563EB",
+        fg_color="#3B8ED0",  # น้ำเงินสดใส
+        hover_color="#3B8ED0",
         command=lambda: show(stack, "Home"),
         width=120,
     ).pack(side="left", padx=15, pady=10)
