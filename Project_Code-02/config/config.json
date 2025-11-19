@@ -1,4 +1,12 @@
 {
+  "theme": "light",
+  "sound_enabled": true,
+  "volume": 0.0,
+  "current_level": "easy",
+  "timer_duration": 180,
+  "show_hints": true,
+  "language": "th",
+  "background_music": "data/Scott Holmes Music - Acoustic Indie Folk.mp3",
   "game": {
     "time_limit": 180,
     "max_guesses": 50,
@@ -9,9 +17,8 @@
     "show_hints": true
   },
   "audio": {
-    "sound_enabled": false,
-    "volume": 0.5024,
+    "sound_enabled": true,
+    "volume": 0.14079999999999998,
     "music_volume": 0.7292682926829268
-  },
-  "language": "th"
+  }
 }
