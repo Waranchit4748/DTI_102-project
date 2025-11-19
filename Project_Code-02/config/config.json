@@ -1,6 +1,6 @@
 {
   "theme": "light",
-  "sound_enabled": false,
+  "sound_enabled": true,
   "volume": 0.388,
   "current_level": "easy",
   "timer_duration": 180,
