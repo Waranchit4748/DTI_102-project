@@ -431,43 +431,58 @@ def create_game_ui(root, stack):
 
     # รีเซ็ตเกม
     def reset_game(difficulty="easy"):
-        # หยุด threads เก่า
-        stop_timer()
-        
-        # รีเซ็ต state
+        logger.info(f"[RESET] Starting reset for difficulty: {difficulty}")
+       
+        # 1. หยุด threads ก่อน
+        with state['lock']:
+            state['timer_running'] = False
+       
+        if state['timer_thread'] and state['timer_thread'].is_alive():
+            state['timer_thread'].join(timeout=0.5)
+       
+        # 2. ล้าง UI queue
+        while not state['ui_queue'].empty():
+            try:
+                state['ui_queue'].get_nowait()
+            except:
+                break
+       
+        # 3. ล้างประวัติ UI ก่อน (สำคัญมาก!)
+        for widget in ranking_frame.winfo_children():
+            widget.destroy()
+       
+        # 4. ล้าง state
+        state['history_items'].clear()
         with state['lock']:
             state['last_guess_time'] = None
-        
-        # ล้าง history items
-        state['history_items'].clear()
-        
-        # เริ่มเกมใหม่ใน game_manager
-        from core.game_manager import start_game as init_game
-        try:
-            game_info = init_game(difficulty)
-            logger.info(f"Game restarted: {game_info}")
-        except Exception as e:
-            logger.error(f"Failed to restart game: {e}")
-            feedback_label.configure(text="เกิดข้อผิดพลาดในการเริ่มเกม!", text_color="red")
-            return
-        
-        # รีเซ็ต UI
+       
+        # 5. รีเซ็ต UI elements
         entry.delete(0, 'end')
-        feedback_label.configure(text=f"พร้อมเล่น! ระดับ: {difficulty.upper()}", text_color="green")
+        feedback_label.configure(text="", text_color="black")
         hint_counter_label.configure(text="คำใบ้: 0/3")
         timer_label.configure(text="เวลา: 03:00")
         timer_progress.set(1.0)
         timer_progress.configure(progress_color="green")
-        
-        # ล้างประวัติ UI
-        for widget in ranking_frame.winfo_children():
-            widget.destroy()
-        
-        # เริ่ม timer และ auto hint ใหม่
+       
+        # 6. บังคับ render ทันที
+        frame.update_idletasks()
+       
+        # 7. เริ่มเกมใหม่
+        from core.game_manager import start_game as init_game
+        try:
+            game_info = init_game(difficulty)
+            logger.info(f"[RESET] Game initialized: {game_info}")
+            feedback_label.configure(text=f"พร้อมเล่น! ระดับ: {difficulty.upper()}", text_color="green")
+        except Exception as e:
+            logger.error(f"[RESET] Failed to start game: {e}", exc_info=True)
+            feedback_label.configure(text="เกิดข้อผิดพลาด!", text_color="red")
+            return
+       
+        # 8. เริ่ม timer และ auto hint
         start_timer()
         start_auto_hint()
-        
-        logger.info(f"Game UI reset for difficulty: {difficulty}")
+       
+        logger.info(f"[RESET] Complete!")
 
     # ================= Bind Events =================
     
