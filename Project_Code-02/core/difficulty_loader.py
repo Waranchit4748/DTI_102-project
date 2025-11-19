@@ -1,4 +1,4 @@
-"""core/difficulty_loader.py: โหลดและจัดกหารระดับความยาก"""
+"""core/difficulty_loader.py: โหลดและจัดการระดับความยาก"""
 
 import random
 import json
